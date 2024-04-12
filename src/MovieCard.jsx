@@ -46,17 +46,17 @@ const NoImageIcon = styled.div`
 
 const MovieCard = ({ movie }) => {
   return (
-    <StyledCard>
-      {movie.Poster !== "N/A" ? (
+    <StyledCard onClick={() => {}}>
+      {movie.primaryImage.url ? (
         <ImgContainer>
-          <MovieImg src={movie.Poster}></MovieImg>
+          <MovieImg src={movie.primaryImage.url}></MovieImg>
         </ImgContainer>
       ) : (
         <NoImageIcon>
           <MdImageNotSupported />
         </NoImageIcon>
       )}
-      <MovieCardTitle>{movie.Title}</MovieCardTitle>
+      <MovieCardTitle>{movie.titleText.text}</MovieCardTitle>
     </StyledCard>
   );
 };

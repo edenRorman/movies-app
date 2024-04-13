@@ -476,6 +476,15 @@ const MovieList = styled.div`
   list-style: none;
   padding-left: 0;
 `;
+const SearchButton = styled.div`
+  :hover {
+    cursor: pointer;
+    padding: 5px;
+    margin: -5px;
+    background-color: #efefef;
+    border-radius: 10px;
+  }
+`;
 
 const MoviesCatalog = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -524,11 +533,13 @@ const MoviesCatalog = () => {
             setSearchTerm(e.target.value);
           }}
         />
-        <FaSearch
-          size={28}
-          className="fa-solid fa-coffee fa-2xl"
-          onClick={searchMovie}
-        />
+        <SearchButton>
+          <FaSearch
+            size={28}
+            className="fa-solid fa-coffee fa-2xl"
+            onClick={searchMovie}
+          />
+        </SearchButton>
       </Search>
       <MovieList>
         {moviesList ? (

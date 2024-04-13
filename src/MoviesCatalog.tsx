@@ -471,10 +471,7 @@ const Search = styled.div`
 `;
 const MovieList = styled.div`
   display: flex;
-  gap: 30px;
   flex-wrap: wrap;
-  list-style: none;
-  padding-left: 0;
 `;
 const SearchButton = styled.div`
   :hover {

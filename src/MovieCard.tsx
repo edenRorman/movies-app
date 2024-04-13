@@ -19,6 +19,7 @@ const StyledCard = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 25px;
   :hover {
     cursor: pointer;
   }

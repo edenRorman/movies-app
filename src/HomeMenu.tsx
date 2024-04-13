@@ -7,16 +7,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
 
 const StyledMenu = styled.div`
   border-right: 3px solid black;
+  height: 100%;
 `;
 
 const HomeMenu = () => {
-  let location = useLocation();
-
-  if (location.pathname.includes("/movie")) return null;
   return (
     <StyledMenu>
       <Toolbar />

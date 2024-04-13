@@ -52,7 +52,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
-    <StyledCard to={`Movie/${movie.id}`}>
+    <StyledCard to={`/movie/${movie.id}`}>
       {movie.primaryImageUrl ? (
         <ImgContainer>
           <MovieImg src={movie.primaryImageUrl}></MovieImg>

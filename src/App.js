@@ -14,7 +14,7 @@ const WebTitle = styled.div`
 `;
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/home",
     element: <HomePage />,
   },
   {

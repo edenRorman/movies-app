@@ -1,6 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Movie from "./MovieDataModel";
 import convertToMovie from "./utils";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { IoMdArrowBack } from "react-icons/io";
+import MovieInfoRigthSide from "./MovieInfoRigthSide";
+
+const StyledPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+const StyledBackButton = styled(Button)`
+  color: black !important;
+  gap: 6px !important;
+  border: 1px solid rgb(141 141 141 / 60%) !important;
+  width: 10%;
+  flex-direction: row !importent;
+`;
+const StyledMovie = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const MovieImage = styled.img`
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  width: 90%;
+`;
+const StyledLeftSide = styled.div`
+  flex: 5;
+`;
 
 const singleDATA = {
   results: {
@@ -126,19 +156,26 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieId }) => {
     searchSpecificMovie();
   }, []);
 
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/home");
+  }
+
   return (
     <div>
       {movieInfo ? (
-        <>
-          <button>Back to all movies list</button>
-          <img src={movieInfo.primaryImageUrl}></img>
-          <div>
-            <div>{movieInfo.title}</div>
-            <div>{movieInfo.genres}</div>
-            <h2>overview</h2>
-            <div>{movieInfo.plot}</div>
-          </div>
-        </>
+        <StyledPage>
+          <StyledBackButton onClick={handleClick}>
+            <IoMdArrowBack />
+            Back
+          </StyledBackButton>
+          <StyledMovie>
+            <StyledLeftSide>
+              <MovieImage src={movieInfo.primaryImageUrl}></MovieImage>
+            </StyledLeftSide>
+            <MovieInfoRigthSide movie={movieInfo} />
+          </StyledMovie>
+        </StyledPage>
       ) : (
         <div>Loading page</div>
       )}

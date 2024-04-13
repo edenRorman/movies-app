@@ -1,10 +1,10 @@
 interface Movie {
   id: string;
   ratingsSummary?: { aggregateRating: number; voteCount: number };
-  primaryImageUrl: string;
+  primaryImageUrl?: string;
   genres?: string[];
   title: string;
-  releaseYear: number;
+  releaseYear?: number;
   runtimeSec?: number;
   plot?: string;
 }

@@ -9,12 +9,12 @@ const convertToMovie = (data: any): Movie => {
       aggregateRating: data.ratingsSummary?.aggregateRating,
       voteCount: data.ratingsSummary?.voteCount,
     },
-    primaryImageUrl: data.primaryImage.url,
+    primaryImageUrl: data.primaryImage?.url,
     genres: getAllGenres,
     title: data.titleText.text,
-    releaseYear: data.releaseYear.year,
+    releaseYear: data.releaseYear?.year,
     runtimeSec: data.runtime?.seconds,
-    plot: data.plot?.plotText.plainText,
+    plot: data.plot?.plotText?.plainText,
   };
 };
 

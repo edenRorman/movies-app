@@ -4,7 +4,8 @@ import { TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Movie from "./MovieDataModel";
 import MovieCard from "./MovieCard";
-import convertToMovie from "./utils";
+import { useParams } from "react-router-dom";
+import MoviesApi from "./MoviesApi";
 
 const DATA = {
   entries: 10,
@@ -476,27 +477,33 @@ const MovieList = styled.div`
   padding-left: 0;
 `;
 
-const HomePage = () => {
-  const [searchTerm, setSearchTerm] = useState<string | undefined>("spiderman");
+const MoviesCatalog = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
+  const { genre } = useParams();
 
-  const searchMovie = async (searchTerm: string | undefined) => {
-    if (!searchTerm) {
-      // const randomUrl = `${baseUrl}/titles/random?list=top_boxoffice_200`;
-      // const response = await fetch(randomUrl, options);
-      // const result = await response.results;
-    } else {
-      // const searchUrl = `${baseUrl}/titles/search/akas/${searchTerm}`;
-      // const response = await fetch(searchUrl, options);
-      // const result = await response.results;
-    }
-    const data = DATA.results.map(convertToMovie);
-    //await response.json();
-    setMoviesList(data);
+  const searchMovie = async () => {
+    if (searchTerm.length === 0) return;
+
+    const allMovies = await new MoviesApi().searchByTerm(searchTerm);
+    setMoviesList(allMovies);
   };
+
   useEffect(() => {
-    searchMovie(searchTerm);
-  }, []);
+    if (!genre) {
+      const callGetRandomMovies = async () => {
+        const allGenreMovies = await new MoviesApi().searchRandom();
+        setMoviesList(allGenreMovies);
+      };
+      callGetRandomMovies();
+    } else {
+      const callGetGenerMovies = async () => {
+        const allGenreMovies = await new MoviesApi().searchByGenre(genre);
+        setMoviesList(allGenreMovies);
+      };
+      callGetGenerMovies();
+    }
+  }, [setMoviesList, genre]);
 
   return (
     <div>
@@ -513,9 +520,7 @@ const HomePage = () => {
         <FaSearch
           size={28}
           className="fa-solid fa-coffee fa-2xl"
-          onClick={() => {
-            searchMovie(searchTerm);
-          }}
+          onClick={searchMovie}
         />
       </Search>
       <MovieList>
@@ -524,11 +529,11 @@ const HomePage = () => {
             <MovieCard movie={singleMovie} />
           ))
         ) : (
-          <div>No movies found :( </div>
+          <div>No movies found </div>
         )}
       </MovieList>
     </div>
   );
 };
 
-export default HomePage;
+export default MoviesCatalog;

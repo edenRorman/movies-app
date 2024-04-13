@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./HomePage";
+import MoviesCatalog from "./MoviesCatalog";
 import MovieInfo from "./MovieInfo";
 import Root from "./Root";
 
@@ -30,15 +30,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <MoviesCatalog />,
       },
       {
         path: "/home",
-        element: <HomePage />,
+        element: <MoviesCatalog />,
       },
       {
-        path: "/movie/:id",
+        path: "/movie/:movieId",
         element: <MovieInfo />,
+      },
+      {
+        path: "/genre/:genre",
+        element: <MoviesCatalog />,
       },
     ],
   },

@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Movie from "./MovieDataModel";
 import MovieCard from "./MovieCard";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 
 const DATA = {
@@ -481,6 +481,7 @@ const MoviesCatalog = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
   const { genre } = useParams();
+  let location = useLocation();
 
   const searchMovie = async () => {
     if (searchTerm.length === 0) return;
@@ -490,20 +491,26 @@ const MoviesCatalog = () => {
   };
 
   useEffect(() => {
-    if (!genre) {
-      const callGetRandomMovies = async () => {
-        const allGenreMovies = await new MoviesApi().searchRandom();
-        setMoviesList(allGenreMovies);
+    if (location.pathname.includes("upcoming")) {
+      const callGetUpcomingMovies = async () => {
+        const allUpcomingMovies = await new MoviesApi().getUpcoming();
+        setMoviesList(allUpcomingMovies);
       };
-      callGetRandomMovies();
-    } else {
+      callGetUpcomingMovies();
+    } else if (genre) {
       const callGetGenerMovies = async () => {
         const allGenreMovies = await new MoviesApi().searchByGenre(genre);
         setMoviesList(allGenreMovies);
       };
       callGetGenerMovies();
+    } else {
+      const callGetRandomMovies = async () => {
+        const allGenreMovies = await new MoviesApi().searchRandom();
+        setMoviesList(allGenreMovies);
+      };
+      callGetRandomMovies();
     }
-  }, [setMoviesList, genre]);
+  }, [setMoviesList, genre, location]);
 
   return (
     <div>

@@ -4,13 +4,11 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import { useEffect, useState } from "react";
 import { BiCameraMovie } from "react-icons/bi";
-import { FaThLarge } from "react-icons/fa";
 
 const StyledMenu = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
@@ -24,9 +22,15 @@ const MenuImg = styled.div`
 const HomeMenu = () => {
   const [allGenres, setAllGenres] = useState<string[]>([]);
   const navigate = useNavigate();
+  const { genre: selectedGenre } = useParams();
+  let location = useLocation();
 
   const handleGenreOnClick = (genre: string) => {
     navigate(`/genre/${genre}`);
+  };
+
+  const handleGeneralOnClick = (text: string) => {
+    navigate(`/${text}`);
   };
 
   useEffect(() => {
@@ -44,9 +48,15 @@ const HomeMenu = () => {
       </MenuImg>
       <Divider />
       <List>
-        {["Home", "Upcomimg"].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {["Home", "Upcoming"].map((text) => (
+          <ListItem
+            key={text}
+            disablePadding
+            onClick={() => handleGeneralOnClick(text.toLowerCase())}
+          >
+            <ListItemButton
+              selected={location.pathname.includes(text.toLowerCase())}
+            >
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -60,7 +70,7 @@ const HomeMenu = () => {
             disablePadding
             onClick={() => handleGenreOnClick(genre)}
           >
-            <ListItemButton>
+            <ListItemButton selected={genre === selectedGenre}>
               <ListItemText primary={genre} />
             </ListItemButton>
           </ListItem>

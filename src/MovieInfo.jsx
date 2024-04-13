@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const singleDATA = {
@@ -109,22 +109,42 @@ const singleDATA = {
     },
   },
 };
+const baseUrl = "https://moviesdatabase.p.rapidapi.com";
+const options = {
+  method: "GET",
+  headers: {
+    "X-RapidAPI-Key": "ce5b38e66cmsh602fa4174c0ede4p1653bfjsn77edad1c59b2",
+    "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
+  },
+};
 
-const MovieInfo = (movieId: string) => {
-  const [allInfo];
+const MovieInfo = (movieId) => {
+  const [movieInfo, setMovieInfo] = useState(null);
+  const searchSpecificMovie = async () => {
+    const data = singleDATA;
+    //await response.json();
+    setMovieInfo(data.results);
+  };
   useEffect(() => {
-    searchMovie(searchTerm);
+    searchSpecificMovie();
   }, []);
+
   return (
     <div>
-      <button>Back to all movies list</button>
-      <img src={movie.primaryImage.url}></img>
-      <div>
-        <div>{movie.titleText.text}</div>
-        <div>{movie.genres}</div>
-        <h2>overview</h2>
-        <div>{movie.plot.plotText.plainText}</div>
-      </div>
+      {movieInfo ? (
+        <>
+          <button>Back to all movies list</button>
+          <img src={movieInfo.primaryImage.url}></img>
+          <div>
+            <div>{movieInfo.titleText.text}</div>
+            <div>{movieInfo.genres.genres.map((ganer) => ganer.text)}</div>
+            <h2>overview</h2>
+            <div>{movieInfo.plot.plotText.plainText}</div>
+          </div>
+        </>
+      ) : (
+        <div>Loading page</div>
+      )}
     </div>
   );
 };

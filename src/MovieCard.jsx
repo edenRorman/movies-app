@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MdImageNotSupported } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const MovieImg = styled.img`
   aspect-ratio: 1/1;
@@ -13,7 +14,7 @@ const ImgContainer = styled.div`
   background-color: #cccccc;
   display: flex;
 `;
-const StyledCard = styled.div`
+const StyledCard = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +47,7 @@ const NoImageIcon = styled.div`
 
 const MovieCard = ({ movie }) => {
   return (
-    <StyledCard onClick={() => {}}>
+    <StyledCard to={`Movie/${movie.id}`}>
       {movie.primaryImage.url ? (
         <ImgContainer>
           <MovieImg src={movie.primaryImage.url}></MovieImg>

@@ -20,13 +20,15 @@ const StyledCard = styled(Link)`
   flex-direction: column;
   align-items: center;
   padding: 25px;
+  text-decoration: none;
+  color: black;
   :hover {
     cursor: pointer;
+    color: #555757;
   }
 `;
 const MovieCardTitle = styled.div`
   font-family: sans-serif;
-  font-weight: bold;
   background-color: #ececec;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;

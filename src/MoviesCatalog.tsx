@@ -39,7 +39,7 @@ const MoviesCatalog = () => {
   const searchTermFromUrl = searchParams.get("searchTerm");
 
   const searchMovie = async () => {
-    setSearchParams({ searchTerm: searchTerm });
+    setSearchParams({ searchTerm: searchTerm.trim() });
   };
 
   useEffect(() => {

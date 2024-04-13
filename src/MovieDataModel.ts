@@ -1,12 +1,12 @@
 interface Movie {
   id: string;
-  ratingsSummary: { aggregateRating: number; voteCount: number };
+  ratingsSummary?: { aggregateRating: number; voteCount: number };
   primaryImageUrl: string;
-  genres: string[];
+  genres?: string[];
   title: string;
   releaseYear: number;
-  runtimeSec: number;
-  plot: string;
+  runtimeSec?: number;
+  plot?: string;
 }
 
 export default Movie;

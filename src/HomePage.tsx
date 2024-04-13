@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
+import Movie from "./MovieDataModel";
 import MovieCard from "./MovieCard";
+import convertToMovie from "./utils";
 
 const DATA = {
   entries: 10,
@@ -458,14 +460,6 @@ const DATA = {
     },
   ],
 };
-const baseUrl = "https://moviesdatabase.p.rapidapi.com";
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "ce5b38e66cmsh602fa4174c0ede4p1653bfjsn77edad1c59b2",
-    "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
-  },
-};
 
 const Search = styled.div`
   display: flex;
@@ -483,10 +477,10 @@ const MovieList = styled.div`
 `;
 
 const HomePage = () => {
-  const [searchTerm, setSearchTerm] = useState("spiderman");
-  const [moviesList, setMoviesList] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string | undefined>("spiderman");
+  const [moviesList, setMoviesList] = useState<Movie[]>([]);
 
-  const searchMovie = async (searchTerm) => {
+  const searchMovie = async (searchTerm: string | undefined) => {
     if (!searchTerm) {
       // const randomUrl = `${baseUrl}/titles/random?list=top_boxoffice_200`;
       // const response = await fetch(randomUrl, options);
@@ -496,9 +490,9 @@ const HomePage = () => {
       // const response = await fetch(searchUrl, options);
       // const result = await response.results;
     }
-    const data = DATA;
+    const data = DATA.results.map(convertToMovie);
     //await response.json();
-    setMoviesList(data.results);
+    setMoviesList(data);
   };
   useEffect(() => {
     searchMovie(searchTerm);
@@ -512,13 +506,13 @@ const HomePage = () => {
           placeholder="Search... "
           variant="outlined"
           value={searchTerm}
-          onChange={() => {
-            setSearchTerm();
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
           }}
         />
         <FaSearch
           size={28}
-          class="fa-solid fa-coffee fa-2xl"
+          className="fa-solid fa-coffee fa-2xl"
           onClick={() => {
             searchMovie(searchTerm);
           }}
@@ -526,7 +520,9 @@ const HomePage = () => {
       </Search>
       <MovieList>
         {moviesList ? (
-          moviesList.map((singleMovie) => <MovieCard movie={singleMovie} />)
+          moviesList.map((singleMovie: Movie) => (
+            <MovieCard movie={singleMovie} />
+          ))
         ) : (
           <div>No movies found :( </div>
         )}

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { MdImageNotSupported } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Movie from "./MovieDataModel";
 
 const MovieImg = styled.img`
   aspect-ratio: 1/1;
@@ -45,19 +46,23 @@ const NoImageIcon = styled.div`
   align-items: center;
 `;
 
-const MovieCard = ({ movie }) => {
+interface MovieCardProps {
+  movie: Movie;
+}
+
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   return (
     <StyledCard to={`Movie/${movie.id}`}>
-      {movie.primaryImage.url ? (
+      {movie.primaryImageUrl ? (
         <ImgContainer>
-          <MovieImg src={movie.primaryImage.url}></MovieImg>
+          <MovieImg src={movie.primaryImageUrl}></MovieImg>
         </ImgContainer>
       ) : (
         <NoImageIcon>
           <MdImageNotSupported />
         </NoImageIcon>
       )}
-      <MovieCardTitle>{movie.titleText.text}</MovieCardTitle>
+      <MovieCardTitle>{movie.title}</MovieCardTitle>
     </StyledCard>
   );
 };

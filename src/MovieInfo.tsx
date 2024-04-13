@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Movie from "./MovieDataModel";
+import convertToMovie from "./utils";
 
 const singleDATA = {
   results: {
@@ -109,36 +110,10 @@ const singleDATA = {
     },
   },
 };
-const baseUrl: string = "https://moviesdatabase.p.rapidapi.com";
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "ce5b38e66cmsh602fa4174c0ede4p1653bfjsn77edad1c59b2",
-    "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
-  },
-};
 
 interface MovieInfoProps {
   movieId: string;
 }
-
-const convertToMovie = (data: any): Movie => {
-  type Genre = { text: string; id: string; __typename: string };
-  const getAllGenres = data.genres.genres.map((genre: Genre) => genre.text);
-  return {
-    id: data.id,
-    ratingsSummary: {
-      aggregateRating: data.ratingsSummary.aggregateRating,
-      voteCount: data.ratingsSummary.voteCount,
-    },
-    primaryImageUrl: data.primaryImage.url,
-    genres: getAllGenres,
-    title: data.titleText.text,
-    releaseYear: data.releaseYear.year,
-    runtimeSec: data.runtime.seconds,
-    plot: data.plot.plotText.plainText,
-  };
-};
 
 const MovieInfo: React.FC<MovieInfoProps> = ({ movieId }) => {
   const [movieInfo, setMovieInfo] = useState<Movie | undefined>(undefined);

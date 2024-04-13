@@ -6,6 +6,7 @@ import { Outlet, useLocation } from "react-router-dom";
 const Layout = styled.div`
   display: flex;
   height: 100%;
+  width: 100%;
 `;
 const WebTitle = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const WebTitle = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 const MenuLayout = styled.div`
   display: flex;

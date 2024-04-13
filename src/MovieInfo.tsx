@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import Movie from "./MovieDataModel";
 
 const singleDATA = {
   results: {
@@ -109,7 +109,7 @@ const singleDATA = {
     },
   },
 };
-const baseUrl = "https://moviesdatabase.p.rapidapi.com";
+const baseUrl: string = "https://moviesdatabase.p.rapidapi.com";
 const options = {
   method: "GET",
   headers: {
@@ -118,12 +118,34 @@ const options = {
   },
 };
 
-const MovieInfo = (movieId) => {
-  const [movieInfo, setMovieInfo] = useState(null);
+interface MovieInfoProps {
+  movieId: string;
+}
+
+const convertToMovie = (data: any): Movie => {
+  type Genre = { text: string; id: string; __typename: string };
+  const getAllGenres = data.genres.genres.map((genre: Genre) => genre.text);
+  return {
+    id: data.id,
+    ratingsSummary: {
+      aggregateRating: data.ratingsSummary.aggregateRating,
+      voteCount: data.ratingsSummary.voteCount,
+    },
+    primaryImageUrl: data.primaryImage.url,
+    genres: getAllGenres,
+    title: data.titleText.text,
+    releaseYear: data.releaseYear.year,
+    runtimeSec: data.runtime.seconds,
+    plot: data.plot.plotText.plainText,
+  };
+};
+
+const MovieInfo: React.FC<MovieInfoProps> = ({ movieId }) => {
+  const [movieInfo, setMovieInfo] = useState<Movie | undefined>(undefined);
   const searchSpecificMovie = async () => {
-    const data = singleDATA;
+    const data = convertToMovie(singleDATA.results);
     //await response.json();
-    setMovieInfo(data.results);
+    setMovieInfo(data);
   };
   useEffect(() => {
     searchSpecificMovie();
@@ -134,12 +156,12 @@ const MovieInfo = (movieId) => {
       {movieInfo ? (
         <>
           <button>Back to all movies list</button>
-          <img src={movieInfo.primaryImage.url}></img>
+          <img src={movieInfo.primaryImageUrl}></img>
           <div>
-            <div>{movieInfo.titleText.text}</div>
-            <div>{movieInfo.genres.genres.map((ganer) => ganer.text)}</div>
+            <div>{movieInfo.title}</div>
+            <div>{movieInfo.genres}</div>
             <h2>overview</h2>
-            <div>{movieInfo.plot.plotText.plainText}</div>
+            <div>{movieInfo.plot}</div>
           </div>
         </>
       ) : (

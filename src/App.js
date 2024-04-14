@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MoviesCatalog from "./MoviesCatalog";
-import MovieInfo from "./MovieInfo";
+import MovieInfo from "./movieInfo/MovieInfo";
 import Root from "./Root";
 
 const WebTitle = styled.div`
@@ -38,6 +38,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/upcoming",
+        element: <MoviesCatalog />,
+      },
+      {
+        path: "/favorite",
         element: <MoviesCatalog />,
       },
       {

@@ -1,4 +1,5 @@
 import Movie from "./MovieDataModel";
+import FavoriteMovies from "./favoriteMovies";
 import randomMovies from "./mocks/random";
 import searchBy from "./mocks/searchBy";
 import searchGenere from "./mocks/searchGenre";
@@ -103,7 +104,7 @@ class MoviesApi {
   }
 
   // Get specific movie by id
-  async getSpecificMovie(movieId: string): Promise<Movie> {
+  public async getSpecificMovie(movieId: string): Promise<Movie> {
     return specificId;
     // const searchUrl = `${this.baseUrl}/titles/${movieId}?info=base_info`;
     // const response = await fetch(searchUrl, this.options);
@@ -125,6 +126,52 @@ class MoviesApi {
     //     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
     //   );
     // return moviesToReturn;
+  }
+
+  // Get Favorite
+  async getFavorites(): Promise<Movie[]> {
+    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
+    if (currentFavoriteString) {
+      const currentFavorite: FavoriteMovies = new Map(
+        JSON.parse(currentFavoriteString)
+      );
+      return Array.from(currentFavorite.values());
+    }
+    return [];
+  }
+
+  async addToFavorites(movie: Movie): Promise<void> {
+    let currentFavorite: FavoriteMovies;
+    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
+    if (currentFavoriteString) {
+      currentFavorite = new Map(JSON.parse(currentFavoriteString));
+    } else {
+      currentFavorite = new Map<string, Movie>();
+    }
+    currentFavorite.set(movie.id, movie);
+    localStorage.setItem(
+      "FavoriteMovie",
+      JSON.stringify(Array.from(currentFavorite.entries()))
+    );
+  }
+
+  async removeFromFavorites(movieId: string): Promise<void> {
+    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
+    if (currentFavoriteString) {
+      const currentFavorite: FavoriteMovies = new Map(
+        JSON.parse(currentFavoriteString)
+      );
+      currentFavorite.delete(movieId);
+      localStorage.setItem(
+        "FavoriteMovie",
+        JSON.stringify(Array.from(currentFavorite.entries()))
+      );
+    }
+  }
+
+  async isInFavorites(movieId: string): Promise<boolean> {
+    const allFavorites = await this.getFavorites();
+    return allFavorites.some((movie) => movie.id === movieId);
   }
 }
 

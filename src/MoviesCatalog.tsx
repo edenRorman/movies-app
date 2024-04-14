@@ -43,7 +43,13 @@ const MoviesCatalog = () => {
   };
 
   useEffect(() => {
-    if (location.pathname.includes("upcoming")) {
+    if (location.pathname.includes("favorite")) {
+      const callGetUpcomingMovies = async () => {
+        const allFavoriteMovies = await new MoviesApi().getFavorites();
+        setMoviesList(allFavoriteMovies);
+      };
+      callGetUpcomingMovies();
+    } else if (location.pathname.includes("upcoming")) {
       const callGetUpcomingMovies = async () => {
         const allUpcomingMovies = await new MoviesApi().getUpcoming(
           searchTermFromUrl

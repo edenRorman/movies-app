@@ -48,7 +48,7 @@ const HomeMenu = () => {
       </MenuImg>
       <Divider />
       <List>
-        {["Home", "Upcoming"].map((text) => (
+        {["Home", "Upcoming", "Favorite"].map((text) => (
           <ListItem
             key={text}
             disablePadding

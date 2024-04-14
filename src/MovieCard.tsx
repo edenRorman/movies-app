@@ -16,9 +16,6 @@ const ImgContainer = styled.div`
   display: flex;
 `;
 const StyledCard = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 25px;
   text-decoration: none;
   color: black;

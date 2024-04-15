@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const EmptyPageText = styled.div`
@@ -15,8 +16,14 @@ interface EmptyStateProps {
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({ searchTerm, genre }) => {
+  let location = useLocation();
   return (
     <>
+      {location.pathname.includes("favorite") && (
+        <EmptyPageText>
+          <h1>No favorite movie yet.. </h1>
+        </EmptyPageText>
+      )}
       {searchTerm && (
         <EmptyPageText>
           <h1>Sorry ....</h1>

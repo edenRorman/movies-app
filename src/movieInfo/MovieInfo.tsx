@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Movie from "../MovieDataModel";
-import convertToMovie from "../utils";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";

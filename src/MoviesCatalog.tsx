@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { TextField } from "@mui/material";
+import { Pagination, TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Movie from "./MovieDataModel";
 import MovieCard from "./MovieCard";
@@ -8,12 +8,17 @@ import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import EmptyState from "./EmptyState";
 
+const StyledMovieCatalog = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Search = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 1% 25%;
   align-items: center;
   gap: 20px;
+  width: 50%;
 `;
 const MovieList = styled.div`
   display: flex;
@@ -30,6 +35,8 @@ const SearchButton = styled.div`
   }
 `;
 
+const CATALOG_PAGE_SIZE = 10;
+
 const MoviesCatalog = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
@@ -37,6 +44,7 @@ const MoviesCatalog = () => {
   let location = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
   const searchTermFromUrl = searchParams.get("searchTerm");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const searchMovie = async () => {
     setSearchParams({ searchTerm: searchTerm.trim() });
@@ -77,8 +85,22 @@ const MoviesCatalog = () => {
     }
   }, [setMoviesList, genre, location, searchParams]);
 
+  const moviesByPage: Movie[] = useMemo(() => {
+    const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);
+    let endIndex = CATALOG_PAGE_SIZE * currentPage - 1;
+    if (endIndex > moviesList.length) endIndex = moviesList.length;
+    return moviesList.slice(startIndex, endIndex + 1);
+  }, [moviesList, currentPage]);
+
+  const handlePaginationOnChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div>
+    <StyledMovieCatalog>
       <Search>
         <TextField
           fullWidth
@@ -99,14 +121,21 @@ const MoviesCatalog = () => {
       </Search>
       <MovieList>
         {moviesList.length > 0 ? (
-          moviesList.map((singleMovie: Movie) => (
+          moviesByPage.map((singleMovie: Movie) => (
             <MovieCard movie={singleMovie} />
           ))
         ) : (
           <EmptyState searchTerm={searchTermFromUrl} genre={genre} />
         )}
       </MovieList>
-    </div>
+      {moviesList.length > CATALOG_PAGE_SIZE && (
+        <Pagination
+          count={Math.ceil(moviesList.length / CATALOG_PAGE_SIZE)}
+          page={currentPage}
+          onChange={handlePaginationOnChange}
+        />
+      )}
+    </StyledMovieCatalog>
   );
 };
 

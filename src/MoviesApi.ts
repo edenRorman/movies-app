@@ -1,10 +1,5 @@
 import Movie from "./MovieDataModel";
 import FavoriteMovies from "./favoriteMovies";
-import randomMovies from "./mocks/random";
-import searchBy from "./mocks/searchBy";
-import searchGenere from "./mocks/searchGenre";
-import specificId from "./mocks/specificId";
-import upComingMovies from "./mocks/upComing";
 import convertToMovie from "./utils";
 
 class MoviesApi {
@@ -19,16 +14,17 @@ class MoviesApi {
     },
   };
 
+  baseLambdaUrl =
+    "https://obp141wk6a.execute-api.us-east-1.amazonaws.com/dev/v1/movies";
+  lambdaOptions = {
+    method: "GET",
+  };
+
   // Search by term
   async searchByTerm(searchTerm: string): Promise<Movie[]> {
-    if (searchTerm === "dark knight") {
-      return searchBy;
-    }
-    return [];
-    // const searchUrl = `${this.baseUrl}/titles/search/title/${searchTerm}?exact=false&info=base_info&titleType=movie`;
-    // const response = await fetch(searchUrl, this.options);
-    // const results = await response.json();
-    // return results.results.map(convertToMovie);
+    const searchUrl = `${this.baseLambdaUrl}/${searchTerm}`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    return await response.json();
   }
 
   // Sesrch By genre
@@ -36,96 +32,57 @@ class MoviesApi {
     genre: string,
     searchTerm: string | null
   ): Promise<Movie[]> {
-    if (genre === "Action") {
-      const moviesToReturn = searchGenere;
-      return moviesToReturn;
-    }
-    return [];
-    // const searchUrl = `${this.baseUrl}/titles/random?limit=50&list=top_boxoffice_200&genre=${genre}`;
-    // const response = await fetch(searchUrl, this.options);
-    // const results = await response.json();
-    // const moviesToReturn: Movie[] = results.results.map(convertToMovie);
+    const searchUrl = `${this.baseLambdaUrl}/genres/${genre}`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    const moviesToReturn: Movie[] = await response.json();
 
-    // if (searchTerm)
-    //   return moviesToReturn.filter((movie) =>
-    //     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    // return moviesToReturn;
+    if (searchTerm)
+      return moviesToReturn.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    return moviesToReturn;
   }
 
   // random
   async searchRandom(searchTerm: string | null): Promise<Movie[]> {
-    return randomMovies;
+    const searchUrl = `${this.baseLambdaUrl}/random`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    const results: Movie[] = await response.json();
 
-    // const searchUrl = `${this.baseUrl}/titles/random?limit=50&list=top_boxoffice_200`;
-    // const response = await fetch(searchUrl, this.options);
-    // const results = await response.json();
-    // const moviesToReturn: Movie[] = results.results.map(convertToMovie);
-
-    // if (searchTerm)
-    //   return moviesToReturn.filter((movie) =>
-    //     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    // return moviesToReturn;
+    if (searchTerm)
+      return results.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    return results;
   }
 
   // Get all genres
   async getAllGenres(): Promise<string[]> {
-    return [
-      "Action",
-      "Adult",
-      "Adventure",
-      "Animation",
-      "Biography",
-      "Comedy",
-      "Crime",
-      "Documentary",
-      "Drama",
-      "Family",
-      "Fantasy",
-      "Film-Noir",
-      "Game-Show",
-      "History",
-      "Horror",
-      "Music",
-      "Musical",
-      "Mystery",
-      "News",
-      "Reality-TV",
-      "Romance",
-      "Sci-Fi",
-      "Short",
-      "Sport",
-      "Talk-Show",
-      "Thriller",
-      "War",
-      "Western",
-    ];
+    const searchUrl = `${this.baseLambdaUrl}/genres`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    const results: string[] = await response.json();
+
+    return results;
   }
 
   // Get specific movie by id
   public async getSpecificMovie(movieId: string): Promise<Movie> {
-    return specificId;
-    // const searchUrl = `${this.baseUrl}/titles/${movieId}?info=base_info`;
-    // const response = await fetch(searchUrl, this.options);
-    // const result = await response.json();
-    // return convertToMovie(result.results);
+    const searchUrl = `${this.baseLambdaUrl}/${movieId}`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    return await response.json();
   }
 
   // Get Upcoming
   async getUpcoming(searchTerm: string | null): Promise<Movie[]> {
-    return upComingMovies;
+    const searchUrl = `${this.baseLambdaUrl}/upcomimg`;
+    const response = await fetch(searchUrl, this.lambdaOptions);
+    const results: Movie[] = await response.json();
 
-    // const searchUrl = `${this.baseUrl}/titles/x/upcoming?limit=50`;
-    // const response = await fetch(searchUrl, this.options);
-    // const results = await response.json();
-    // const moviesToReturn: Movie[] = results.results.map(convertToMovie);
-
-    // if (searchTerm)
-    //   return moviesToReturn.filter((movie) =>
-    //     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    // return moviesToReturn;
+    if (searchTerm)
+      return results.filter((movie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    return results;
   }
 
   // Get Favorite

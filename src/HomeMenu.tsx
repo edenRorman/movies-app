@@ -1,4 +1,3 @@
-import * as React from "react";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -8,15 +7,20 @@ import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import { useEffect, useState } from "react";
-import { BiCameraMovie } from "react-icons/bi";
+import MovieTabIcon from "./images/movieTabIcon.png";
 
 const StyledMenu = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
-const MenuImg = styled.div`
+const MenuIcon = styled.img`
   display: flex;
   justify-content: center;
+  width: 50%;
+  height: 20%;
+  padding: 5px;
 `;
 
 const HomeMenu = () => {
@@ -43,9 +47,7 @@ const HomeMenu = () => {
 
   return (
     <StyledMenu>
-      <MenuImg>
-        <BiCameraMovie size={70} />
-      </MenuImg>
+      <MenuIcon src={MovieTabIcon} />
       <Divider />
       <List>
         {["Home", "Upcoming", "Favorite"].map((text) => (

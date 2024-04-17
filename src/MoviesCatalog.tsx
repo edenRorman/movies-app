@@ -13,7 +13,6 @@ const StyledMovieCatalog = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const Search = styled.div`
   display: flex;
   align-items: center;
@@ -51,6 +50,7 @@ const MoviesCatalog = () => {
   };
 
   useEffect(() => {
+    setCurrentPage(1);
     if (location.pathname.includes("favorite")) {
       const callGetUpcomingMovies = async () => {
         const allFavoriteMovies = await new MoviesApi().getFavorites();

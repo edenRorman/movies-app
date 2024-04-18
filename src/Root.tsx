@@ -1,7 +1,9 @@
-import React from "react";
 import styled from "styled-components";
 import HomeMenu from "./HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import { useState } from "react";
+import SignInModal from "./SignInModal";
 
 const Layout = styled.div`
   display: flex;
@@ -16,6 +18,21 @@ const WebTitle = styled.div`
   font-weight: bold;
   font-style: italic;
   margin: 10px 0;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const UserIcon = styled.div`
+  display: flex;
+  font-family: sans-serif;
+  font-style: italic;
+  align-items: center;
+  gap: 8px;
+  margin-right: 4px;
+`;
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 const Content = styled.div`
   display: flex;
@@ -30,13 +47,27 @@ const MenuLayout = styled.div`
 
 const Root = () => {
   let location = useLocation();
-
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const shouldSowMenu = !location.pathname.includes("/movie");
+
+  const eden = () => {
+    setIsOpen(true);
+  };
+
+  // use effect that do get from the local storaget to get the user name if not return guest
+
   return (
     <Layout>
       <MenuLayout>{shouldSowMenu && <HomeMenu />}</MenuLayout>
       <Content>
-        <WebTitle>Best movie place</WebTitle>
+        <Header>
+          <WebTitle>Best movie place</WebTitle>
+          <UserIcon onClick={eden}>
+            <FaUserCircle size={22} />
+            Hello user
+          </UserIcon>
+          <SignInModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        </Header>
         <Outlet />
       </Content>
     </Layout>

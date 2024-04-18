@@ -1,10 +1,7 @@
 import Movie from "./MovieDataModel";
 import FavoriteMovies from "./favoriteMovies";
-import convertToMovie from "./utils";
 
 class MoviesApi {
-  constructor() {}
-
   baseUrl: string = "https://moviesdatabase.p.rapidapi.com";
   options = {
     method: "GET",
@@ -14,15 +11,17 @@ class MoviesApi {
     },
   };
 
-  baseLambdaUrl =
+  baseLambdaMovieUrl =
     "https://obp141wk6a.execute-api.us-east-1.amazonaws.com/dev/v1/movies";
+  baseLambdaUsersUrl =
+    "https://obp141wk6a.execute-api.us-east-1.amazonaws.com/dev/v1/users";
   lambdaOptions = {
     method: "GET",
   };
 
   // Search by term
   async searchByTerm(searchTerm: string): Promise<Movie[]> {
-    const searchUrl = `${this.baseLambdaUrl}/${searchTerm}`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/${searchTerm}`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     return await response.json();
   }
@@ -32,7 +31,7 @@ class MoviesApi {
     genre: string,
     searchTerm: string | null
   ): Promise<Movie[]> {
-    const searchUrl = `${this.baseLambdaUrl}/genres/${genre}`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/genres/${genre}`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     const moviesToReturn: Movie[] = await response.json();
 
@@ -45,7 +44,7 @@ class MoviesApi {
 
   // random
   async searchRandom(searchTerm: string | null): Promise<Movie[]> {
-    const searchUrl = `${this.baseLambdaUrl}/random`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/random`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     const results: Movie[] = await response.json();
 
@@ -58,7 +57,7 @@ class MoviesApi {
 
   // Get all genres
   async getAllGenres(): Promise<string[]> {
-    const searchUrl = `${this.baseLambdaUrl}/genres`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/genres`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     const results: string[] = await response.json();
 
@@ -67,14 +66,14 @@ class MoviesApi {
 
   // Get specific movie by id
   public async getSpecificMovie(movieId: string): Promise<Movie> {
-    const searchUrl = `${this.baseLambdaUrl}/${movieId}`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/${movieId}`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     return await response.json();
   }
 
   // Get Upcoming
   async getUpcoming(searchTerm: string | null): Promise<Movie[]> {
-    const searchUrl = `${this.baseLambdaUrl}/upcomimg`;
+    const searchUrl = `${this.baseLambdaMovieUrl}/upcomimg`;
     const response = await fetch(searchUrl, this.lambdaOptions);
     const results: Movie[] = await response.json();
 
@@ -129,6 +128,15 @@ class MoviesApi {
   async isInFavorites(movieId: string): Promise<boolean> {
     const allFavorites = await this.getFavorites();
     return allFavorites.some((movie) => movie.id === movieId);
+  }
+
+  // create new user
+  async cresteNewUser(username: string): Promise<string> {
+    const searchUrl = `${this.baseLambdaUsersUrl}/${username}`;
+    const response = await fetch(searchUrl, { method: "POST" });
+    if (response.ok) return "";
+    if (response.status === 409) return "duplicate";
+    return "error";
   }
 }
 

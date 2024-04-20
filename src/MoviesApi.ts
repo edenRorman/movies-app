@@ -85,56 +85,36 @@ class MoviesApi {
   }
 
   // Get Favorite
-  async getFavorites(): Promise<Movie[]> {
-    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
-    if (currentFavoriteString) {
-      const currentFavorite: FavoriteMovies = new Map(
-        JSON.parse(currentFavoriteString)
-      );
-      return Array.from(currentFavorite.values());
-    }
-    return [];
+  async getFavorites(userName: string): Promise<Movie[]> {
+    const searchUrl = `${this.baseLambdaUsersUrl}/${userName}/favorites`;
+    const response = await fetch(searchUrl, { method: "GET" });
+    return response.json();
   }
 
-  async addToFavorites(movie: Movie): Promise<void> {
-    let currentFavorite: FavoriteMovies;
-    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
-    if (currentFavoriteString) {
-      currentFavorite = new Map(JSON.parse(currentFavoriteString));
-    } else {
-      currentFavorite = new Map<string, Movie>();
-    }
-    currentFavorite.set(movie.id, movie);
-    localStorage.setItem(
-      "FavoriteMovie",
-      JSON.stringify(Array.from(currentFavorite.entries()))
-    );
+  async addToFavorites(userName: string, movieId: string): Promise<void> {
+    const searchUrl = `${this.baseLambdaUsersUrl}/${userName}/favorites/${movieId}`;
+    const response = await fetch(searchUrl, { method: "PUT" });
   }
 
-  async removeFromFavorites(movieId: string): Promise<void> {
-    const currentFavoriteString = localStorage.getItem("FavoriteMovie");
-    if (currentFavoriteString) {
-      const currentFavorite: FavoriteMovies = new Map(
-        JSON.parse(currentFavoriteString)
-      );
-      currentFavorite.delete(movieId);
-      localStorage.setItem(
-        "FavoriteMovie",
-        JSON.stringify(Array.from(currentFavorite.entries()))
-      );
-    }
+  async removeFromFavorites(userName: string, movieId: string): Promise<void> {
+    const searchUrl = `${this.baseLambdaUsersUrl}/${userName}/favorites/${movieId}`;
+    const response = await fetch(searchUrl, { method: "DELETE" });
   }
 
-  async isInFavorites(movieId: string): Promise<boolean> {
-    const allFavorites = await this.getFavorites();
-    return allFavorites.some((movie) => movie.id === movieId);
+  async isInFavorites(userName: string, movieId: string): Promise<boolean> {
+    const searchUrl = `${this.baseLambdaUsersUrl}/${userName}/favorites/${movieId}`;
+    const response = await fetch(searchUrl, { method: "GET" });
+    return response.json();
   }
 
   // create new user
   async cresteNewUser(username: string): Promise<string> {
     const searchUrl = `${this.baseLambdaUsersUrl}/${username}`;
     const response = await fetch(searchUrl, { method: "POST" });
-    if (response.ok) return "";
+    if (response.ok) {
+      localStorage.setItem("userName", JSON.stringify(username));
+      return "";
+    }
     if (response.status === 409) return "duplicate";
     return "error";
   }

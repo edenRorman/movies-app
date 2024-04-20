@@ -2,7 +2,7 @@ import styled from "styled-components";
 import HomeMenu from "./HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignInModal from "./SignInModal";
 
 const Layout = styled.div`
@@ -49,6 +49,14 @@ const Root = () => {
   let location = useLocation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const shouldSowMenu = !location.pathname.includes("/movie");
+  const [userName, setUserName] = useState<string>("");
+
+  useEffect(() => {
+    const checkForUserName = localStorage.getItem("userName");
+    if (checkForUserName) {
+      setUserName(JSON.parse(checkForUserName));
+    }
+  }, []);
 
   const eden = () => {
     setIsOpen(true);
@@ -64,7 +72,7 @@ const Root = () => {
           <WebTitle>Best movie place</WebTitle>
           <UserIcon onClick={eden}>
             <FaUserCircle size={22} />
-            Hello user
+            Hello {userName}
           </UserIcon>
           <SignInModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </Header>

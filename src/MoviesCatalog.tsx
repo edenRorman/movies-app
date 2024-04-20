@@ -7,6 +7,7 @@ import MovieCard from "./MovieCard";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import EmptyState from "./EmptyState";
+import { useCheckUser } from "./hooks/useCheckUser";
 
 const StyledMovieCatalog = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const MoviesCatalog = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const searchTermFromUrl = searchParams.get("searchTerm");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const userName = useCheckUser();
 
   const searchMovie = async () => {
     setSearchParams({ searchTerm: searchTerm.trim() });
@@ -51,9 +53,11 @@ const MoviesCatalog = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-    if (location.pathname.includes("favorite")) {
+    if (location.pathname.includes("favorite") && userName) {
       const callGetUpcomingMovies = async () => {
-        const allFavoriteMovies = await new MoviesApi().getFavorites();
+        const allFavoriteMovies = await new MoviesApi().getFavorites(
+          userName!!
+        );
         setMoviesList(allFavoriteMovies);
       };
       callGetUpcomingMovies();
@@ -83,7 +87,7 @@ const MoviesCatalog = () => {
       };
       callGetRandomMovies();
     }
-  }, [setMoviesList, genre, location, searchParams]);
+  }, [setMoviesList, genre, location, searchParams, userName]);
 
   const moviesByPage: Movie[] = useMemo(() => {
     const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);

@@ -101,6 +101,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
         </StyledFavoriteButton>
       ) : (
         <StyledFavoriteButton
+          disabled={!currentUser}
           variant="outlined"
           onClick={handleOnClickFavorite}
         >

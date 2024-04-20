@@ -6,8 +6,12 @@ import ListItemText from "@mui/material/ListItemText";
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MovieTabIcon from "./images/movieTabIcon.png";
+import {
+  CurrentUserContext,
+  CurrentUserContextType,
+} from "./currentUserContext";
 
 const StyledMenu = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
@@ -28,6 +32,9 @@ const HomeMenu = () => {
   const navigate = useNavigate();
   const { genre: selectedGenre } = useParams();
   let location = useLocation();
+
+  const { currentUser } =
+    useContext<CurrentUserContextType>(CurrentUserContext);
 
   const handleGenreOnClick = (genre: string) => {
     navigate(`/genre/${genre}`);
@@ -50,19 +57,22 @@ const HomeMenu = () => {
       <MenuIcon src={MovieTabIcon} />
       <Divider />
       <List>
-        {["Home", "Upcoming", "Favorite"].map((text) => (
-          <ListItem
-            key={text}
-            disablePadding
-            onClick={() => handleGeneralOnClick(text.toLowerCase())}
-          >
-            <ListItemButton
-              selected={location.pathname.includes(text.toLowerCase())}
-            >
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {["Home", "Upcoming", currentUser ? "Favorite" : null].map(
+          (text) =>
+            text !== null && (
+              <ListItem
+                key={text}
+                disablePadding
+                onClick={() => handleGeneralOnClick(text.toLowerCase())}
+              >
+                <ListItemButton
+                  selected={location.pathname.includes(text.toLowerCase())}
+                >
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            )
+        )}
       </List>
       <Divider />
       <List>

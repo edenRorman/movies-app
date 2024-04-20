@@ -24,12 +24,16 @@ const StyledMovie = styled.div`
   flex-direction: row;
 `;
 const MovieImage = styled.img`
-  aspect-ratio: 1/1;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  width: 90%;
 `;
 const StyledLeftSide = styled.div`
   flex: 5;
+  max-width: 600px;
+  max-height: 700px;
+  overflow: hidden;
+  padding: 30px;
 `;
 
 const MovieInfo = () => {

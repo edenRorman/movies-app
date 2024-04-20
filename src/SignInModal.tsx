@@ -6,6 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
 import MoviesApi from "./MoviesApi";
@@ -22,23 +23,27 @@ interface LoginModalProps {
 
 const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
   const [userName, setUserName] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const { setCurrentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
 
   const handleOnClose = () => {
+    setUserName("");
+    setError("");
     setIsOpen(false);
   };
 
   const handleSave = async () => {
     const createUserResponse = await new MoviesApi().cresteNewUser(userName);
     if (createUserResponse === "duplicate") {
-      alert("409!!");
+      setError("this user name is already exist");
     } else if (createUserResponse === "error") {
-      alert("500!!");
+      setError("Somting went worng. please try again");
     } else {
       setCurrentUser(userName);
       setIsOpen(false);
       setUserName("");
+      setError("");
     }
   };
 
@@ -57,10 +62,14 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
         />
+
+        <Typography variant="body1" color="error">
+          {error}
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleOnClose}>Cancel</Button>
-        <Button onClick={handleSave} type="submit">
+        <Button disabled={!userName} onClick={handleSave} type="submit">
           Create user
         </Button>
       </DialogActions>

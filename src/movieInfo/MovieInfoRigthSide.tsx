@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import Movie from "../MovieDataModel";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { Button } from "@mui/material";
 import MoviesApi from "../MoviesApi";
-import { useCheckUser } from "../hooks/useCheckUser";
+import { CurrentUserContext, CurrentUserContextType } from "../Root";
 
 const StyledRigthSide = styled.div`
   flex: 3;
@@ -34,28 +34,29 @@ interface MovieInfoRigthSideProps {
 
 const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
-  const userName = useCheckUser();
+  const { currentUser } =
+    useContext<CurrentUserContextType>(CurrentUserContext);
 
   useEffect(() => {
-    if (userName) {
+    if (currentUser) {
       const checkIfFavorite = async () => {
         const favoriteState = await new MoviesApi().isInFavorites(
-          userName!!,
+          currentUser!!,
           movie.id
         );
         setFavorite(favoriteState);
       };
       checkIfFavorite();
     }
-  }, [userName]);
+  }, [currentUser]);
 
   const handleOnClickFavorite = () => {
-    if (userName) {
+    if (currentUser) {
       setFavorite(!favorite);
       if (!favorite) {
-        new MoviesApi().addToFavorites(userName, movie.id);
+        new MoviesApi().addToFavorites(currentUser, movie.id);
       } else {
-        new MoviesApi().removeFromFavorites(userName, movie.id);
+        new MoviesApi().removeFromFavorites(currentUser, movie.id);
       }
     }
   };

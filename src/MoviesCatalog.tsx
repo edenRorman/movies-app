@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Pagination, TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import EmptyState from "./EmptyState";
 import { useCheckUser } from "./hooks/useCheckUser";
+import { CurrentUserContext, CurrentUserContextType } from "./Root";
 
 const StyledMovieCatalog = styled.div`
   display: flex;
@@ -45,7 +46,8 @@ const MoviesCatalog = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const searchTermFromUrl = searchParams.get("searchTerm");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const userName = useCheckUser();
+  const { currentUser } =
+    useContext<CurrentUserContextType>(CurrentUserContext);
 
   const searchMovie = async () => {
     setSearchParams({ searchTerm: searchTerm.trim() });
@@ -53,10 +55,10 @@ const MoviesCatalog = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-    if (location.pathname.includes("favorite") && userName) {
+    if (location.pathname.includes("favorite") && currentUser) {
       const callGetUpcomingMovies = async () => {
         const allFavoriteMovies = await new MoviesApi().getFavorites(
-          userName!!
+          currentUser!!
         );
         setMoviesList(allFavoriteMovies);
       };
@@ -87,7 +89,7 @@ const MoviesCatalog = () => {
       };
       callGetRandomMovies();
     }
-  }, [setMoviesList, genre, location, searchParams, userName]);
+  }, [setMoviesList, genre, location, searchParams, currentUser]);
 
   const moviesByPage: Movie[] = useMemo(() => {
     const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);

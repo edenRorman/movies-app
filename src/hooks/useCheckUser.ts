@@ -10,5 +10,5 @@ export function useCheckUser() {
     }
   }, [setUserName]);
 
-  return userName;
+  return { userName, setUserName };
 }

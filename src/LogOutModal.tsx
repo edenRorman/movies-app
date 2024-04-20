@@ -1,8 +1,7 @@
 import { Button } from "@mui/base";
-import { Box, Modal, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { Box, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
-import MoviesApi from "./MoviesApi";
+import { useContext } from "react";
 import { CurrentUserContext, CurrentUserContextType } from "./Root";
 
 const StyledModal = styled(Modal)`
@@ -30,8 +29,7 @@ interface LoginModalProps {
   setIsOpen: (state: boolean) => void;
 }
 
-const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
-  const [userName, setUserName] = useState<string>("");
+const LogOutModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
   const { setCurrentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
 
@@ -40,16 +38,9 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
   };
 
   const handleSave = async () => {
-    const createUserResponse = await new MoviesApi().cresteNewUser(userName);
-    if (createUserResponse === "duplicate") {
-      alert("409!!");
-    } else if (createUserResponse === "error") {
-      alert("500!!");
-    } else {
-      setCurrentUser(userName);
-      setIsOpen(false);
-      setUserName("");
-    }
+    localStorage.removeItem("userName");
+    setCurrentUser(null);
+    setIsOpen(false);
   };
 
   return (
@@ -61,21 +52,11 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Sign-in
+          Log-out
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Hi you :)
-          <br />
-          We need you insert an user name here and let's continiue !!!
+          Are you sure that you want to logOut from movies app?
         </Typography>
-        <TextField
-          id="outlined-basic"
-          label="Insert user name"
-          variant="outlined"
-          size="small"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
         <footer>
           <Button
             onClick={() => {
@@ -84,11 +65,11 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
           >
             Discard
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>Confirm</Button>
         </footer>
       </Box>
     </StyledModal>
   );
 };
 
-export default SignInModal;
+export default LogOutModal;

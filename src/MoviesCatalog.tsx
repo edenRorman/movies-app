@@ -7,8 +7,10 @@ import MovieCard from "./MovieCard";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import MoviesApi from "./MoviesApi";
 import EmptyState from "./EmptyState";
-import { useCheckUser } from "./hooks/useCheckUser";
-import { CurrentUserContext, CurrentUserContextType } from "./Root";
+import {
+  CurrentUserContext,
+  CurrentUserContextType,
+} from "./currentUserContext";
 
 const StyledMovieCatalog = styled.div`
   display: flex;
@@ -89,7 +91,14 @@ const MoviesCatalog = () => {
       };
       callGetRandomMovies();
     }
-  }, [setMoviesList, genre, location, searchParams, currentUser]);
+  }, [
+    setMoviesList,
+    genre,
+    location,
+    searchParams,
+    currentUser,
+    searchTermFromUrl,
+  ]);
 
   const moviesByPage: Movie[] = useMemo(() => {
     const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);

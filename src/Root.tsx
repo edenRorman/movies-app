@@ -2,9 +2,10 @@ import styled from "styled-components";
 import HomeMenu from "./HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { useState } from "react";
 import SignInModal from "./SignInModal";
 import LogOutModal from "./LogOutModal";
+import { CurrentUserContext } from "./currentUserContext";
 
 const Layout = styled.div`
   display: flex;
@@ -45,18 +46,6 @@ const MenuLayout = styled.div`
   flex-direction: column;
   height: 100%;
 `;
-
-export type CurrentUserContextType = {
-  currentUser: string | null;
-  setCurrentUser: Dispatch<SetStateAction<string | null>>;
-};
-const currentUserContextDefaultValue: CurrentUserContextType = {
-  currentUser: null,
-  setCurrentUser: () => {},
-};
-export const CurrentUserContext = createContext<CurrentUserContextType>(
-  currentUserContextDefaultValue
-);
 
 const Root = () => {
   let location = useLocation();

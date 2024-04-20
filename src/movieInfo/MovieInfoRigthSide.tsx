@@ -6,7 +6,10 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { Button } from "@mui/material";
 import MoviesApi from "../MoviesApi";
-import { CurrentUserContext, CurrentUserContextType } from "../Root";
+import {
+  CurrentUserContext,
+  CurrentUserContextType,
+} from "../currentUserContext";
 
 const StyledRigthSide = styled.div`
   flex: 3;
@@ -48,7 +51,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
       };
       checkIfFavorite();
     }
-  }, [currentUser]);
+  }, [currentUser, movie.id]);
 
   const handleOnClickFavorite = () => {
     if (currentUser) {

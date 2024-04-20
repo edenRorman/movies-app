@@ -2,7 +2,10 @@ import { Button } from "@mui/base";
 import { Box, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useContext } from "react";
-import { CurrentUserContext, CurrentUserContextType } from "./Root";
+import {
+  CurrentUserContext,
+  CurrentUserContextType,
+} from "./currentUserContext";
 
 const StyledModal = styled(Modal)`
   display: flex;

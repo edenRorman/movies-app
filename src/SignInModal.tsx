@@ -3,7 +3,10 @@ import { Box, Modal, TextField, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import MoviesApi from "./MoviesApi";
-import { CurrentUserContext, CurrentUserContextType } from "./Root";
+import {
+  CurrentUserContext,
+  CurrentUserContextType,
+} from "./currentUserContext";
 
 const StyledModal = styled(Modal)`
   display: flex;

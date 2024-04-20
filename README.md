@@ -2,7 +2,7 @@
 
 This project was made by me to showcase some of my capabilities in fullstack-development.
 The website is written in react with typescript. It's hosted on [AWS amlify](https://aws.amazon.com/pm/amplify/), with a backend on [AWS Lambda](https://aws.amazon.com/pm/lambda/), and an [RDS](https://aws.amazon.com/pm/rds/) mysql DB.
-The backend code can be found on my github [here](https://github.com/edenRorman/nodejs-aws-lambda).
+The backend code can be found on my github [here](https://github.com/edenRorman/eden-movies-aws-lambda).
 
 You can visit the website on the address: [https://main.d2oyia48f1kuq2.amplifyapp.com/home](https://main.d2oyia48f1kuq2.amplifyapp.com/home)
 

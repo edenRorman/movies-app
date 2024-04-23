@@ -2,7 +2,7 @@ import styled from "styled-components";
 import HomeMenu from "./HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignInModal from "./SignInModal";
 import LogOutModal from "./LogOutModal";
 import { CurrentUserContext } from "./currentUserContext";
@@ -53,7 +53,11 @@ const Root = () => {
   const [isLogOutOpen, setIsLogOutOpen] = useState<boolean>(false);
   const shouldSowMenu = !location.pathname.includes("/movie");
 
-  const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [currentUser, setCurrentUser] = useState<string | null>(() => {
+    const userFromStorage = localStorage.getItem("userName");
+    if (userFromStorage) return JSON.parse(userFromStorage);
+    return null;
+  });
 
   const openRelevantModal = () => {
     if (currentUser) {

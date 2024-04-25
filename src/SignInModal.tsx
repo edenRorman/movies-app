@@ -49,30 +49,32 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
 
   return (
     <Dialog open={isOpen} onClose={handleOnClose}>
-      <DialogTitle>Welcome to the best movies place</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Please create new usey by inserting a user name
-        </DialogContentText>
-        <TextField
-          required
-          margin="dense"
-          label="User name"
-          fullWidth
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
+      <form method="dialog">
+        <DialogTitle>Welcome to the best movies place</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please create new usey by inserting a user name
+          </DialogContentText>
+          <TextField
+            required
+            margin="dense"
+            label="User name"
+            fullWidth
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
 
-        <Typography variant="body1" color="error">
-          {error}
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleOnClose}>Cancel</Button>
-        <Button disabled={!userName} onClick={handleSave} type="submit">
-          Create user
-        </Button>
-      </DialogActions>
+          <Typography variant="body1" color="error">
+            {error}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOnClose}>Cancel</Button>
+          <Button disabled={!userName} onClick={handleSave} type="submit">
+            Create user
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

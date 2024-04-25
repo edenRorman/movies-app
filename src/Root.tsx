@@ -2,17 +2,18 @@ import styled from "styled-components";
 import HomeMenu from "./HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SignInModal from "./SignInModal";
 import LogOutModal from "./LogOutModal";
 import { CurrentUserContext } from "./currentUserContext";
+import { Button } from "@mui/material";
 
 const Layout = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
 `;
-const WebTitle = styled.div`
+const WebTitle = styled.h1`
   display: flex;
   justify-content: center;
   font-family: sans-serif;
@@ -22,14 +23,6 @@ const WebTitle = styled.div`
   margin: 10px 0;
   margin-left: auto;
   margin-right: auto;
-`;
-const UserIcon = styled.div`
-  display: flex;
-  font-family: sans-serif;
-  font-style: italic;
-  align-items: center;
-  gap: 8px;
-  margin-right: 4px;
 `;
 const Header = styled.div`
   display: flex;
@@ -79,10 +72,13 @@ const Root = () => {
         <Content>
           <Header>
             <WebTitle>Best movie place</WebTitle>
-            <UserIcon onClick={openRelevantModal}>
-              <FaUserCircle size={22} />
+            <Button
+              color="inherit"
+              startIcon={<FaUserCircle size={22} />}
+              onClick={openRelevantModal}
+            >
               Hello {currentUser || "guest"}
-            </UserIcon>
+            </Button>
             <SignInModal isOpen={isSignInOpen} setIsOpen={setIsSignInOpen} />
             <LogOutModal isOpen={isLogOutOpen} setIsOpen={setIsLogOutOpen} />
           </Header>

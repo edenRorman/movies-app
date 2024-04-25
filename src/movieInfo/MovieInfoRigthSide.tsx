@@ -12,7 +12,7 @@ import {
 } from "../currentUserContext";
 
 const StyledRigthSide = styled.div`
-  flex: 3;
+  flex: 1;
 `;
 const StyledTag = styled(Chip)`
   margin-right: 4px;
@@ -21,8 +21,6 @@ const StyledTag = styled(Chip)`
 const Title = styled.div`
   font-family: sans-serif;
   font-weight: bold;
-  padding: 10px;
-  padding-left: 0px;
   font-size: xx-large;
 `;
 const StyledFavoriteButton = styled(Button)`

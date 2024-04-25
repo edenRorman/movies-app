@@ -55,7 +55,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     <StyledCard to={`/movie/${movie.id}`}>
       {movie.primaryImageUrl ? (
         <ImgContainer>
-          <MovieImg src={movie.primaryImageUrl}></MovieImg>
+          <MovieImg src={movie.primaryImageUrl} alt={movie.title}></MovieImg>
         </ImgContainer>
       ) : (
         <NoImageIcon>

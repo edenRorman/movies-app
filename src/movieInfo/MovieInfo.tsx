@@ -10,30 +10,27 @@ import MoviesApi from "../MoviesApi";
 const StyledPage = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 `;
 const StyledBackButton = styled(Button)`
-  color: black !important;
-  gap: 6px !important;
   border: 1px solid rgb(141 141 141 / 60%) !important;
   width: 10%;
-  flex-direction: row !importent;
 `;
 const StyledMovie = styled.div`
   display: flex;
-  flex-direction: row;
 `;
 const MovieImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
 `;
 const StyledLeftSide = styled.div`
-  flex: 5;
+  flex: 7;
   max-width: 600px;
   max-height: 700px;
   overflow: hidden;
-  padding: 30px;
+  padding-right: 20px;
+  padding-left: 20px;
 `;
 
 const MovieInfo = () => {
@@ -57,13 +54,19 @@ const MovieInfo = () => {
     <div>
       {movieInfo ? (
         <StyledPage>
-          <StyledBackButton onClick={handleClick}>
-            <IoMdArrowBack />
+          <StyledBackButton
+            color="inherit"
+            onClick={handleClick}
+            startIcon={<IoMdArrowBack />}
+          >
             Back
           </StyledBackButton>
           <StyledMovie>
             <StyledLeftSide>
-              <MovieImage src={movieInfo.primaryImageUrl}></MovieImage>
+              <MovieImage
+                src={movieInfo.primaryImageUrl}
+                alt={movieInfo.title}
+              ></MovieImage>
             </StyledLeftSide>
             <MovieInfoRigthSide movie={movieInfo} />
           </StyledMovie>

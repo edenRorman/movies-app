@@ -19,7 +19,6 @@ const ErrorPageText = styled.div`
 const LinkToHomePage = styled(Button)`
   display: flex;
   align-items: center;
-  color: black !important;
   gap: 6px !important;
 `;
 
@@ -40,7 +39,7 @@ export default function ErrorPage() {
         <p>
           Error code :<i>{error.statusText || error.message}</i>
         </p>
-        <LinkToHomePage onClick={handleClick}>
+        <LinkToHomePage color="inherit" onClick={handleClick}>
           Click here to back to the home page
           <IoMdHome size={22} />
         </LinkToHomePage>

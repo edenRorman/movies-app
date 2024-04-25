@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import Movie from "../MovieDataModel";
 import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
 import { Button, Tooltip } from "@mui/material";
 import MoviesApi from "../MoviesApi";
 import {
@@ -108,7 +109,13 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
             variant="outlined"
             disabled={!currentUser}
             onClick={handleOnClickFavorite}
-            startIcon={<MdFavoriteBorder size={26} />}
+            startIcon={
+              favorite ? (
+                <MdFavorite size={26} />
+              ) : (
+                <MdFavoriteBorder size={26} />
+              )
+            }
           >
             {favorite ? "Remove from your favorite" : "Add to your favorite"}
           </StyledFavoriteButton>

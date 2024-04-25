@@ -12,7 +12,10 @@ import {
 } from "../currentUserContext";
 
 const StyledRigthSide = styled.div`
-  flex: 1;
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const StyledTag = styled(Chip)`
   margin-right: 4px;
@@ -24,9 +27,8 @@ const Title = styled.div`
   font-size: xx-large;
 `;
 const StyledFavoriteButton = styled(Button)`
-  color: black !important;
   border-color: black !important;
-  gap: 6px;
+  width: 50%;
 `;
 
 interface MovieInfoRigthSideProps {
@@ -94,19 +96,21 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
 
       {favorite ? (
         <StyledFavoriteButton
+          color="inherit"
           variant="outlined"
           onClick={handleOnClickFavorite}
+          startIcon={<MdFavoriteBorder size={26} />}
         >
-          <MdOutlineFavorite size={26} />
           Remove to your favorite
         </StyledFavoriteButton>
       ) : (
         <StyledFavoriteButton
+          color="inherit"
           disabled={!currentUser}
           variant="outlined"
           onClick={handleOnClickFavorite}
+          startIcon={<MdFavoriteBorder size={26} />}
         >
-          <MdFavoriteBorder size={26} />
           Add from your favorite
         </StyledFavoriteButton>
       )}

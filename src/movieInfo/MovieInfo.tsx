@@ -21,13 +21,11 @@ const StyledMovie = styled.div`
 `;
 const MovieImage = styled.img`
   width: 100%;
-  height: 100%;
+  height: 80vh;
   display: block;
 `;
 const StyledLeftSide = styled.div`
-  flex: 7;
-  max-width: 600px;
-  max-height: 700px;
+  flex: 4;
   overflow: hidden;
   padding-right: 20px;
   padding-left: 20px;

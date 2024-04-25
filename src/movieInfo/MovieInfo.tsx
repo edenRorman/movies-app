@@ -41,7 +41,7 @@ const MovieInfo = () => {
       setMovieInfo(movie);
     };
     callGetSpecificMovie();
-  }, [setMovieInfo]);
+  }, [setMovieInfo, movieId]);
 
   const navigate = useNavigate();
   function handleClick() {

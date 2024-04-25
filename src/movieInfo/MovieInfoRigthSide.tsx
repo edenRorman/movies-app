@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import Movie from "../MovieDataModel";
 import { MdFavoriteBorder } from "react-icons/md";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import MoviesApi from "../MoviesApi";
 import {
   CurrentUserContext,
@@ -96,26 +96,24 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
       <div>{movie.plot}</div>
       <br />
 
-      {favorite ? (
-        <StyledFavoriteButton
-          color="inherit"
-          variant="outlined"
-          onClick={handleOnClickFavorite}
-          startIcon={<MdFavoriteBorder size={26} />}
-        >
-          Remove to your favorite
-        </StyledFavoriteButton>
-      ) : (
-        <StyledFavoriteButton
-          color="inherit"
-          disabled={!currentUser}
-          variant="outlined"
-          onClick={handleOnClickFavorite}
-          startIcon={<MdFavoriteBorder size={26} />}
-        >
-          Add from your favorite
-        </StyledFavoriteButton>
-      )}
+      <Tooltip
+        placement="bottom-start"
+        disableHoverListener={Boolean(currentUser)}
+        title="Guest user can't add to favotites"
+        arrow
+      >
+        <span>
+          <StyledFavoriteButton
+            color="inherit"
+            variant="outlined"
+            disabled={!currentUser}
+            onClick={handleOnClickFavorite}
+            startIcon={<MdFavoriteBorder size={26} />}
+          >
+            {favorite ? "Remove from your favorite" : "Add to your favorite"}
+          </StyledFavoriteButton>
+        </span>
+      </Tooltip>
     </StyledRigthSide>
   );
 };

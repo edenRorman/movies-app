@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Pagination, TextField } from "@mui/material";
+import { Button, Pagination, TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import Movie from "./MovieDataModel";
 import MovieCard from "./MovieCard";
@@ -27,15 +27,6 @@ const MovieList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-`;
-const SearchButton = styled.div`
-  :hover {
-    cursor: pointer;
-    padding: 5px;
-    margin: -5px;
-    background-color: #efefef;
-    border-radius: 10px;
-  }
 `;
 
 const CATALOG_PAGE_SIZE = 10;
@@ -126,13 +117,11 @@ const MoviesCatalog = () => {
             setSearchTerm(e.target.value);
           }}
         />
-        <SearchButton>
-          <FaSearch
-            size={28}
-            className="fa-solid fa-coffee fa-2xl"
-            onClick={searchMovie}
-          />
-        </SearchButton>
+        <Button
+          color="inherit"
+          startIcon={<FaSearch size={28} />}
+          onClick={searchMovie}
+        ></Button>
       </Search>
       <MovieList>
         {moviesList.length > 0 ? (

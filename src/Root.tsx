@@ -34,11 +34,6 @@ const Content = styled.div`
   flex-direction: column;
   width: 100%;
 `;
-const MenuLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
 
 const Root = () => {
   let location = useLocation();
@@ -68,7 +63,7 @@ const Root = () => {
       }}
     >
       <Layout>
-        <MenuLayout>{shouldSowMenu && <HomeMenu />}</MenuLayout>
+        {shouldSowMenu && <HomeMenu />}
         <Content>
           <Header>
             <WebTitle>Best movie place</WebTitle>

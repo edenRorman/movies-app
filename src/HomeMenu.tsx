@@ -12,22 +12,24 @@ import {
   CurrentUserContext,
   CurrentUserContextType,
 } from "./currentUserContext";
+import { Skeleton } from "@mui/material";
 
 const StyledMenu = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
   height: 100%;
+  width: 150px
   display: flex;
   flex-direction: column;
 `;
 const MenuIcon = styled.img`
   display: flex;
   justify-content: center;
-  width: 50%;
-  height: 20%;
+  max-width: 50%;
+  max-height: 20%;
   padding: 5px;
 `;
-
 const HomeMenu = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [allGenres, setAllGenres] = useState<string[]>([]);
   const navigate = useNavigate();
   const { genre: selectedGenre } = useParams();
@@ -48,9 +50,10 @@ const HomeMenu = () => {
     const callGetGeners = async () => {
       const allGenres = await new MoviesApi().getAllGenres();
       setAllGenres(allGenres);
+      setIsLoading(false);
     };
     callGetGeners();
-  }, [setAllGenres]);
+  }, [setAllGenres, setIsLoading]);
 
   return (
     <StyledMenu>
@@ -75,19 +78,29 @@ const HomeMenu = () => {
         )}
       </List>
       <Divider />
-      <List>
-        {allGenres.map((genre) => (
-          <ListItem
-            key={genre}
-            disablePadding
-            onClick={() => handleGenreOnClick(genre)}
-          >
-            <ListItemButton selected={genre === selectedGenre}>
-              <ListItemText primary={genre} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {isLoading ? (
+        <div style={{ paddingRight: 6 }}>
+          {Array.from({ length: 15 }).map((_, index) => (
+            <Skeleton key={index} animation="wave" height={50} width={140} />
+          ))}
+        </div>
+      ) : (
+        <>
+          <List>
+            {allGenres.map((genre) => (
+              <ListItem
+                key={genre}
+                disablePadding
+                onClick={() => handleGenreOnClick(genre)}
+              >
+                <ListItemButton selected={genre === selectedGenre}>
+                  <ListItemText primary={genre} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </>
+      )}
       <Divider />
     </StyledMenu>
   );

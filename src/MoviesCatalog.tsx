@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Button, Pagination, TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
@@ -17,7 +17,7 @@ const StyledMovieCatalog = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Search = styled.div`
+const Search = styled.form`
   display: flex;
   align-items: center;
   gap: 20px;
@@ -42,7 +42,12 @@ const MoviesCatalog = () => {
   const { currentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
 
-  const searchMovie = async () => {
+  const searchMovie = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearchParams({ searchTerm: searchTerm.trim() });
+  };
+
+  const searchByOnClick = async () => {
     setSearchParams({ searchTerm: searchTerm.trim() });
   };
 
@@ -82,14 +87,7 @@ const MoviesCatalog = () => {
       };
       callGetRandomMovies();
     }
-  }, [
-    setMoviesList,
-    genre,
-    location,
-    searchParams,
-    currentUser,
-    searchTermFromUrl,
-  ]);
+  }, [setMoviesList, genre, location, currentUser, searchTermFromUrl]);
 
   const moviesByPage: Movie[] = useMemo(() => {
     const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);
@@ -107,7 +105,7 @@ const MoviesCatalog = () => {
 
   return (
     <StyledMovieCatalog>
-      <Search>
+      <Search onSubmit={searchMovie}>
         <TextField
           fullWidth
           placeholder="Search... "
@@ -120,7 +118,7 @@ const MoviesCatalog = () => {
         <Button
           color="inherit"
           startIcon={<FaSearch size={28} />}
-          onClick={searchMovie}
+          onClick={searchByOnClick}
         ></Button>
       </Search>
       <MovieList>

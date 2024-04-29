@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { IoMdArrowBack } from "react-icons/io";
 import MovieInfoRigthSide from "./MovieInfoRigthSide";
 import MoviesApi from "../MoviesApi";
+import Loader from "../Loader";
 
 const StyledPage = styled.div`
   display: flex;
@@ -29,6 +30,12 @@ const StyledLeftSide = styled.div`
   overflow: hidden;
   padding-right: 20px;
   padding-left: 20px;
+`;
+
+const StyledLoader = styled(Loader)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const MovieInfo = () => {
@@ -70,7 +77,7 @@ const MovieInfo = () => {
           </StyledMovie>
         </StyledPage>
       ) : (
-        <div>Loading page</div>
+        <StyledLoader size="200px"></StyledLoader>
       )}
     </div>
   );

@@ -11,6 +11,7 @@ import {
   CurrentUserContext,
   CurrentUserContextType,
 } from "./currentUserContext";
+import Loader from "./Loader";
 
 const StyledMovieCatalog = styled.div`
   display: flex;
@@ -29,9 +30,16 @@ const MovieList = styled.div`
   justify-content: center;
 `;
 
+const StyledLoader = styled(Loader)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const CATALOG_PAGE_SIZE = 10;
 
 const MoviesCatalog = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
   const { genre } = useParams();
@@ -59,6 +67,7 @@ const MoviesCatalog = () => {
           currentUser!!
         );
         setMoviesList(allFavoriteMovies);
+        setIsLoading(false);
       };
       callGetUpcomingMovies();
     } else if (location.pathname.includes("upcoming")) {
@@ -67,6 +76,7 @@ const MoviesCatalog = () => {
           searchTermFromUrl
         );
         setMoviesList(allUpcomingMovies);
+        setIsLoading(false);
       };
       callGetUpcomingMovies();
     } else if (genre) {
@@ -76,6 +86,7 @@ const MoviesCatalog = () => {
           searchTermFromUrl
         );
         setMoviesList(allGenreMovies);
+        setIsLoading(false);
       };
       callGetGenerMovies();
     } else {
@@ -84,10 +95,18 @@ const MoviesCatalog = () => {
           searchTermFromUrl
         );
         setMoviesList(allGenreMovies);
+        setIsLoading(false);
       };
       callGetRandomMovies();
     }
-  }, [setMoviesList, genre, location, currentUser, searchTermFromUrl]);
+  }, [
+    setMoviesList,
+    genre,
+    location,
+    currentUser,
+    searchTermFromUrl,
+    setIsLoading,
+  ]);
 
   const moviesByPage: Movie[] = useMemo(() => {
     const startIndex = CATALOG_PAGE_SIZE * (currentPage - 1);
@@ -104,40 +123,48 @@ const MoviesCatalog = () => {
   };
 
   return (
-    <StyledMovieCatalog>
-      <Search onSubmit={searchMovie}>
-        <TextField
-          fullWidth
-          placeholder="Search... "
-          variant="outlined"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-        />
-        <Button
-          color="inherit"
-          startIcon={<FaSearch size={28} />}
-          onClick={searchByOnClick}
-        ></Button>
-      </Search>
-      <MovieList>
-        {moviesList.length > 0 ? (
-          moviesByPage.map((singleMovie: Movie) => (
-            <MovieCard movie={singleMovie} />
-          ))
+    <>
+      <StyledMovieCatalog>
+        <Search onSubmit={searchMovie}>
+          <TextField
+            fullWidth
+            placeholder="Search... "
+            variant="outlined"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+          <Button
+            color="inherit"
+            startIcon={<FaSearch size={28} />}
+            onClick={searchByOnClick}
+          ></Button>
+        </Search>
+        {isLoading ? (
+          <StyledLoader size="150px"></StyledLoader>
         ) : (
-          <EmptyState searchTerm={searchTermFromUrl} genre={genre} />
+          <>
+            <MovieList>
+              {moviesList.length > 0 ? (
+                moviesByPage.map((singleMovie: Movie) => (
+                  <MovieCard movie={singleMovie} />
+                ))
+              ) : (
+                <EmptyState searchTerm={searchTermFromUrl} genre={genre} />
+              )}
+            </MovieList>
+            {moviesList.length > CATALOG_PAGE_SIZE && (
+              <Pagination
+                count={Math.ceil(moviesList.length / CATALOG_PAGE_SIZE)}
+                page={currentPage}
+                onChange={handlePaginationOnChange}
+              />
+            )}
+          </>
         )}
-      </MovieList>
-      {moviesList.length > CATALOG_PAGE_SIZE && (
-        <Pagination
-          count={Math.ceil(moviesList.length / CATALOG_PAGE_SIZE)}
-          page={currentPage}
-          onChange={handlePaginationOnChange}
-        />
-      )}
-    </StyledMovieCatalog>
+      </StyledMovieCatalog>
+    </>
   );
 };
 

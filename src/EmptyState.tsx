@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
+import NoResultIcon from "./images/noResult.jpeg";
 
 const EmptyPageText = styled.div`
   display: flex;
@@ -8,6 +9,7 @@ const EmptyPageText = styled.div`
   justify-content: center;
   text-align: center;
   padding: 60px;
+  font-family: sans-serif;
 `;
 
 interface EmptyStateProps {
@@ -26,10 +28,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({ searchTerm, genre }) => {
       )}
       {searchTerm && (
         <EmptyPageText>
-          <h1>Sorry ....</h1>
-          There are no movies for the given search "{searchTerm}".
+          <img src={NoResultIcon}></img>
+          <h1>Sorry...</h1>
+          There are no movies for the given search "{searchTerm}",
           <br />
-          Pls try again! :)
+          Please try to search another movie :)
         </EmptyPageText>
       )}
       {genre && !searchTerm && (

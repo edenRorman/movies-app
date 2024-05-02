@@ -36,7 +36,7 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-const Footer = styled.div`
+const Footer = styled.span`
   display: flex;
   flex-direction: column;
   margin-top: auto;
@@ -95,9 +95,10 @@ const Root = () => {
         </div>
         <Footer>
           The website was written by Eden.
-          <a href="https://github.com/edenRorman/movies-app" target="_blank">
-            Click on the link to see my github page
-          </a>
+          <span>
+            <a href="https://github.com/edenRorman/movies-app">Click here</a> to
+            see my GitHub page.
+          </span>
         </Footer>
       </Layout>
     </CurrentUserContext.Provider>

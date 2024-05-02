@@ -41,6 +41,7 @@ const Footer = styled.div`
   flex-direction: column;
   margin-top: auto;
   align-items: center;
+  padding: 6px;
   color: white;
   background: linear-gradient(to right, rgb(46 40 166 / 80%) 0%, rgb(117 112 233) 50%, rgb(46 40 166 / 80%) 100%);
   );
@@ -94,7 +95,7 @@ const Root = () => {
         </div>
         <Footer>
           The website was written by Eden.
-          <a href="https://github.com/edenRorman/movies-app">
+          <a href="https://github.com/edenRorman/movies-app" target="_blank">
             Click on the link to see my github page
           </a>
         </Footer>

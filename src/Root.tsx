@@ -84,7 +84,9 @@ const Root = () => {
         <Banner>
           The website was created by Eden.
           <span>
-            <a href="https://github.com/edenRorman/movies-app"> Click here</a>
+            <a target="_blank" href="https://github.com/edenRorman/movies-app">
+              Click here
+            </a>
             to see my GitHub page
           </span>
           <FaGithub />

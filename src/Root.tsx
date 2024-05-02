@@ -36,7 +36,7 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-const Footer = styled.a`
+const Footer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: auto;
@@ -92,11 +92,11 @@ const Root = () => {
             <Outlet />
           </Content>
         </div>
-        <Footer
-          id="warp-footer"
-          href="https://github.com/edenRorman/movies-app"
-        >
-          Can you check up my pithub page here
+        <Footer>
+          The website was written by Eden.
+          <a href="https://github.com/edenRorman/movies-app">
+            Click on the link to see my github page
+          </a>
         </Footer>
       </Layout>
     </CurrentUserContext.Provider>

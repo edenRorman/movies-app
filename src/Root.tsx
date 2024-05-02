@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 
 const Layout = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 `;
@@ -33,6 +34,16 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+`;
+const Footer = styled.a`
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  align-items: center;
+  color: white;
+  background: linear-gradient(to right, rgb(46 40 166 / 80%) 0%, rgb(117 112 233) 50%, rgb(46 40 166 / 80%) 100%);
+  );
 `;
 
 const Root = () => {
@@ -63,22 +74,30 @@ const Root = () => {
       }}
     >
       <Layout>
-        {shouldSowMenu && <HomeMenu />}
-        <Content>
-          <Header>
-            <WebTitle>Best movie place</WebTitle>
-            <Button
-              color="inherit"
-              startIcon={<FaUserCircle size={22} />}
-              onClick={openRelevantModal}
-            >
-              Hello {currentUser || "guest"}
-            </Button>
-            <SignInModal isOpen={isSignInOpen} setIsOpen={setIsSignInOpen} />
-            <LogOutModal isOpen={isLogOutOpen} setIsOpen={setIsLogOutOpen} />
-          </Header>
-          <Outlet />
-        </Content>
+        <div id="warp-menu-and-content" style={{ display: "flex" }}>
+          {shouldSowMenu && <HomeMenu />}
+          <Content id="warp-content">
+            <Header>
+              <WebTitle>Best movie place</WebTitle>
+              <Button
+                color="inherit"
+                startIcon={<FaUserCircle size={22} />}
+                onClick={openRelevantModal}
+              >
+                Hello {currentUser || "guest"}
+              </Button>
+              <SignInModal isOpen={isSignInOpen} setIsOpen={setIsSignInOpen} />
+              <LogOutModal isOpen={isLogOutOpen} setIsOpen={setIsLogOutOpen} />
+            </Header>
+            <Outlet />
+          </Content>
+        </div>
+        <Footer
+          id="warp-footer"
+          href="https://github.com/edenRorman/movies-app"
+        >
+          Can you check up my pithub page here
+        </Footer>
       </Layout>
     </CurrentUserContext.Provider>
   );

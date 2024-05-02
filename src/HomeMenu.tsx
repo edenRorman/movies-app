@@ -20,6 +20,9 @@ const StyledMenu = styled.div`
   width: 150px
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  overflow: auto; 
 `;
 const MenuIcon = styled.img`
   display: flex;
@@ -59,48 +62,58 @@ const HomeMenu = () => {
     <StyledMenu>
       <MenuIcon src={MovieTabIcon} />
       <Divider />
-      <List>
-        {["Home", "Upcoming", currentUser ? "Favorite" : null].map(
-          (text) =>
-            text !== null && (
-              <ListItem
-                key={text}
-                disablePadding
-                onClick={() => handleGeneralOnClick(text.toLowerCase())}
-              >
-                <ListItemButton
-                  selected={location.pathname.includes(text.toLowerCase())}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flexGrow: 1,
+          flexShrink: 1,
+          height: 0,
+        }}
+      >
+        <List>
+          {["Home", "Upcoming", currentUser ? "Favorite" : null].map(
+            (text) =>
+              text !== null && (
+                <ListItem
+                  key={text}
+                  disablePadding
+                  onClick={() => handleGeneralOnClick(text.toLowerCase())}
                 >
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            )
-        )}
-      </List>
-      <Divider />
-      {isLoading ? (
-        <div style={{ paddingRight: 6 }}>
-          {Array.from({ length: 15 }).map((_, index) => (
-            <Skeleton key={index} animation="wave" height={50} width={140} />
-          ))}
-        </div>
-      ) : (
-        <>
-          <List>
-            {allGenres.map((genre) => (
-              <ListItem
-                key={genre}
-                disablePadding
-                onClick={() => handleGenreOnClick(genre)}
-              >
-                <ListItemButton selected={genre === selectedGenre}>
-                  <ListItemText primary={genre} />
-                </ListItemButton>
-              </ListItem>
+                  <ListItemButton
+                    selected={location.pathname.includes(text.toLowerCase())}
+                  >
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              )
+          )}
+        </List>
+        <Divider />
+        {isLoading ? (
+          <div style={{ paddingRight: 6 }}>
+            {Array.from({ length: 15 }).map((_, index) => (
+              <Skeleton key={index} animation="wave" height={50} width={140} />
             ))}
-          </List>
-        </>
-      )}
+          </div>
+        ) : (
+          <>
+            <List>
+              {allGenres.map((genre) => (
+                <ListItem
+                  key={genre}
+                  disablePadding
+                  onClick={() => handleGenreOnClick(genre)}
+                >
+                  <ListItemButton selected={genre === selectedGenre}>
+                    <ListItemText primary={genre} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
+      </div>
       <Divider />
     </StyledMenu>
   );

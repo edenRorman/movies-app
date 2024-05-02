@@ -16,6 +16,7 @@ const StyledPage = styled.div`
 const StyledBackButton = styled(Button)`
   border: 1px solid rgb(141 141 141 / 60%) !important;
   width: 10%;
+  margin-left: 20px !important;
 `;
 const StyledMovie = styled.div`
   display: flex;

@@ -16,13 +16,9 @@ import { Skeleton } from "@mui/material";
 
 const StyledMenu = styled.div`
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-  height: 100%;
-  width: 150px
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 0;
-  overflow: auto; 
+  overflow: scroll;
 `;
 const MenuIcon = styled.img`
   display: flex;
@@ -91,9 +87,9 @@ const HomeMenu = () => {
         </List>
         <Divider />
         {isLoading ? (
-          <div style={{ paddingRight: 6 }}>
+          <div style={{ paddingRight: 6, marginLeft: "6px" }}>
             {Array.from({ length: 15 }).map((_, index) => (
-              <Skeleton key={index} animation="wave" height={50} width={140} />
+              <Skeleton key={index} animation="wave" height={50} />
             ))}
           </div>
         ) : (
@@ -114,7 +110,6 @@ const HomeMenu = () => {
           </>
         )}
       </div>
-      <Divider />
     </StyledMenu>
   );
 };

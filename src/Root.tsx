@@ -7,6 +7,7 @@ import SignInModal from "./SignInModal";
 import LogOutModal from "./LogOutModal";
 import { CurrentUserContext } from "./currentUserContext";
 import { Button } from "@mui/material";
+import { FaGithub } from "react-icons/fa";
 
 const Layout = styled.div`
   display: flex;
@@ -36,14 +37,19 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-const Footer = styled.span`
+const Banner = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-top: auto;
+  justify-content: center;
   align-items: center;
+  font-family: monospace;
+  gap: 4px;
   padding: 6px;
   color: white;
-  background: linear-gradient(to right, rgb(46 40 166 / 80%) 0%, rgb(117 112 233) 50%, rgb(46 40 166 / 80%) 100%);
+  background: linear-gradient(
+    to right,
+    rgb(7 7 8 / 80%) 0%,
+    rgb(117 112 224) 50%,
+    rgb(7 7 8 / 80%) 100%
   );
 `;
 
@@ -75,7 +81,18 @@ const Root = () => {
       }}
     >
       <Layout>
-        <div id="warp-menu-and-content" style={{ display: "flex" }}>
+        <Banner>
+          The website was created by Eden.
+          <span>
+            <a href="https://github.com/edenRorman/movies-app"> Click here</a>
+            to see my GitHub page
+          </span>
+          <FaGithub />
+        </Banner>
+        <div
+          id="warp-menu-and-content"
+          style={{ display: "flex", height: "100%" }}
+        >
           {shouldSowMenu && <HomeMenu />}
           <Content id="warp-content">
             <Header>
@@ -93,13 +110,6 @@ const Root = () => {
             <Outlet />
           </Content>
         </div>
-        <Footer>
-          The website was written by Eden.
-          <span>
-            <a href="https://github.com/edenRorman/movies-app">Click here</a> to
-            see my GitHub page.
-          </span>
-        </Footer>
       </Layout>
     </CurrentUserContext.Provider>
   );

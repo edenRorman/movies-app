@@ -1,8 +1,8 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
-import { MdImageNotSupported } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Movie from "../models/MovieDataModel";
+import ImageNotAvailable from "../images/imageNotAvailableCard.png";
 
 const MovieImg = styled.img`
   aspect-ratio: 1/1;
@@ -37,31 +37,29 @@ const MovieCardTitle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const NoImageIcon = styled.div`
-  width: 200px;
-  height: 250px;
-  background-color: #cccccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 interface MovieCardProps {
   movie: Movie;
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+  const addDefaultImg = (ev: SyntheticEvent<HTMLImageElement, Event>) => {
+    ev.currentTarget.src = ImageNotAvailable;
+  };
+
   return (
     <StyledCard to={`/movie/${movie.id}`}>
-      {movie.primaryImageUrl ? (
-        <ImgContainer>
-          <MovieImg src={movie.primaryImageUrl} alt={movie.title}></MovieImg>
-        </ImgContainer>
-      ) : (
-        <NoImageIcon>
-          <MdImageNotSupported />
-        </NoImageIcon>
-      )}
+      <ImgContainer>
+        {movie.primaryImageUrl ? (
+          <MovieImg
+            src={movie.primaryImageUrl}
+            alt={movie.title}
+            onError={addDefaultImg}
+          />
+        ) : (
+          <MovieImg src={ImageNotAvailable} alt={movie.title} />
+        )}
+      </ImgContainer>
       <MovieCardTitle>{movie.title}</MovieCardTitle>
     </StyledCard>
   );

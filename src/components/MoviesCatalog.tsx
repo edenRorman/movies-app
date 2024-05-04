@@ -13,7 +13,7 @@ import {
 } from "../contexts/currentUserContext";
 import Loader from "./Loader";
 
-const StyledMovieCatalog = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +29,6 @@ const MovieList = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-
 const StyledLoader = styled(Loader)`
   display: flex;
   align-items: center;
@@ -42,63 +41,42 @@ const MoviesCatalog = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [moviesList, setMoviesList] = useState<Movie[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const { currentUser } =
+    useContext<CurrentUserContextType>(CurrentUserContext);
+
   const { genre } = useParams();
   let location = useLocation();
   let [searchParams, setSearchParams] = useSearchParams();
   const searchTermFromUrl = searchParams.get("searchTerm");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const { currentUser } =
-    useContext<CurrentUserContextType>(CurrentUserContext);
 
-  const searchMovie = async (e: FormEvent<HTMLFormElement>) => {
+  const searchMovie = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchParams({ searchTerm: searchTerm.trim() });
   };
 
-  const searchByOnClick = async () => {
+  const searchOnClick = () => {
     setSearchParams({ searchTerm: searchTerm.trim() });
   };
 
   useEffect(() => {
     setCurrentPage(1);
-    if (location.pathname.includes("favorite") && currentUser) {
-      const callGetUpcomingMovies = async () => {
-        const allFavoriteMovies = await new MoviesApi().getFavorites(
-          currentUser!!
-        );
-        setMoviesList(allFavoriteMovies);
-        setIsLoading(false);
-      };
-      callGetUpcomingMovies();
-    } else if (location.pathname.includes("upcoming")) {
-      const callGetUpcomingMovies = async () => {
-        const allUpcomingMovies = await new MoviesApi().getUpcoming(
-          searchTermFromUrl
-        );
-        setMoviesList(allUpcomingMovies);
-        setIsLoading(false);
-      };
-      callGetUpcomingMovies();
-    } else if (genre) {
-      const callGetGenerMovies = async () => {
-        const allGenreMovies = await new MoviesApi().searchByGenre(
-          genre,
-          searchTermFromUrl
-        );
-        setMoviesList(allGenreMovies);
-        setIsLoading(false);
-      };
-      callGetGenerMovies();
-    } else {
-      const callGetRandomMovies = async () => {
-        const allGenreMovies = await new MoviesApi().searchRandom(
-          searchTermFromUrl
-        );
-        setMoviesList(allGenreMovies);
-        setIsLoading(false);
-      };
-      callGetRandomMovies();
-    }
+    const getMovies = async () => {
+      let movies: Movie[];
+      if (location.pathname.includes("favorite") && currentUser) {
+        movies = await new MoviesApi().getFavorites(currentUser!!);
+      } else if (location.pathname.includes("upcoming")) {
+        movies = await new MoviesApi().getUpcoming(searchTermFromUrl);
+      } else if (genre) {
+        movies = await new MoviesApi().searchByGenre(genre, searchTermFromUrl);
+      } else {
+        movies = await new MoviesApi().searchRandom(searchTermFromUrl);
+      }
+      setMoviesList(movies);
+      setIsLoading(false);
+    };
+    getMovies();
   }, [
     setMoviesList,
     genre,
@@ -123,48 +101,46 @@ const MoviesCatalog = () => {
   };
 
   return (
-    <>
-      <StyledMovieCatalog>
-        <Search onSubmit={searchMovie}>
-          <TextField
-            fullWidth
-            placeholder="Search... "
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-          />
-          <Button
-            color="inherit"
-            startIcon={<FaSearch size={28} />}
-            onClick={searchByOnClick}
-          ></Button>
-        </Search>
-        {isLoading ? (
-          <StyledLoader size="150px"></StyledLoader>
-        ) : (
-          <>
-            <MovieList>
-              {moviesList.length > 0 ? (
-                moviesByPage.map((singleMovie: Movie) => (
-                  <MovieCard movie={singleMovie} />
-                ))
-              ) : (
-                <EmptyState searchTerm={searchTermFromUrl} genre={genre} />
-              )}
-            </MovieList>
-            {moviesList.length > CATALOG_PAGE_SIZE && (
-              <Pagination
-                count={Math.ceil(moviesList.length / CATALOG_PAGE_SIZE)}
-                page={currentPage}
-                onChange={handlePaginationOnChange}
-              />
+    <Container>
+      <Search onSubmit={searchMovie}>
+        <TextField
+          fullWidth
+          placeholder="Search... "
+          variant="outlined"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
+        <Button
+          color="inherit"
+          startIcon={<FaSearch size={28} />}
+          onClick={searchOnClick}
+        ></Button>
+      </Search>
+      {isLoading ? (
+        <StyledLoader size="150px"></StyledLoader>
+      ) : (
+        <>
+          <MovieList>
+            {moviesList.length > 0 ? (
+              moviesByPage.map((singleMovie: Movie) => (
+                <MovieCard movie={singleMovie} key={singleMovie.id} />
+              ))
+            ) : (
+              <EmptyState searchTerm={searchTermFromUrl} genre={genre} />
             )}
-          </>
-        )}
-      </StyledMovieCatalog>
-    </>
+          </MovieList>
+          {moviesList.length > CATALOG_PAGE_SIZE && (
+            <Pagination
+              count={Math.ceil(moviesList.length / CATALOG_PAGE_SIZE)}
+              page={currentPage}
+              onChange={handlePaginationOnChange}
+            />
+          )}
+        </>
+      )}
+    </Container>
   );
 };
 

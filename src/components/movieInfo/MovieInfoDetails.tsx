@@ -11,7 +11,7 @@ import {
   CurrentUserContextType,
 } from "../../contexts/currentUserContext";
 
-const StyledRigthSide = styled.div`
+const Container = styled.div`
   flex: 3;
   display: flex;
   flex-direction: column;
@@ -35,11 +35,11 @@ const Bold = styled.span`
   font-weight: bold;
 `;
 
-interface MovieInfoRigthSideProps {
+interface MovieInfoDetailsProps {
   movie: Movie;
 }
 
-const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
+const MovieInfoDetails: React.FC<MovieInfoDetailsProps> = ({ movie }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
   const { currentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
@@ -57,7 +57,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
     }
   }, [currentUser, movie.id]);
 
-  const handleOnClickFavorite = () => {
+  const handleFavoriteOnClick = () => {
     if (currentUser) {
       setFavorite(!favorite);
       if (!favorite) {
@@ -68,7 +68,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
     }
   };
   return (
-    <StyledRigthSide>
+    <Container>
       <Title>{movie.title}</Title>
       {movie.ratingsSummary && (
         <div>
@@ -93,9 +93,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
           <Bold>Time in second:</Bold> {movie.runtimeSec}
         </div>
       )}
-      <br />
       <div>{movie.plot}</div>
-      <br />
 
       <Tooltip
         placement="bottom-start"
@@ -108,7 +106,7 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
             color="inherit"
             variant="outlined"
             disabled={!currentUser}
-            onClick={handleOnClickFavorite}
+            onClick={handleFavoriteOnClick}
             startIcon={
               favorite ? (
                 <MdFavorite size={26} />
@@ -121,8 +119,8 @@ const MovieInfoRigthSide: React.FC<MovieInfoRigthSideProps> = ({ movie }) => {
           </StyledFavoriteButton>
         </span>
       </Tooltip>
-    </StyledRigthSide>
+    </Container>
   );
 };
 
-export default MovieInfoRigthSide;
+export default MovieInfoDetails;

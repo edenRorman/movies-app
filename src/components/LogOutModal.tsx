@@ -12,12 +12,12 @@ import {
   CurrentUserContextType,
 } from "../contexts/currentUserContext";
 
-interface LoginModalProps {
+interface LogOutModalProps {
   isOpen: boolean;
   setIsOpen: (state: boolean) => void;
 }
 
-const LogOutModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
+const LogOutModal: React.FC<LogOutModalProps> = ({ isOpen, setIsOpen }) => {
   const { setCurrentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
 
@@ -25,7 +25,7 @@ const LogOutModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
   };
 
-  const handleSave = async () => {
+  const handleOnLogout = () => {
     localStorage.removeItem("userName");
     setCurrentUser(null);
     setIsOpen(false);
@@ -35,13 +35,11 @@ const LogOutModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
     <Dialog open={isOpen} onClose={handleOnClose}>
       <DialogTitle>LOG OUT</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Are you sure that you wanna log out?
-        </DialogContentText>
+        <DialogContentText>Are you sure you want to log out?</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleOnClose}>Cancel</Button>
-        <Button onClick={handleSave} type="submit">
+        <Button onClick={handleOnLogout} type="submit">
           Confirm
         </Button>
       </DialogActions>

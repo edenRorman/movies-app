@@ -20,6 +20,13 @@ const StyledMenu = styled.div`
   flex-direction: column;
   overflow: scroll;
 `;
+const MenuOptions = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 0;
+`;
 const MenuIcon = styled.img`
   display: flex;
   justify-content: center;
@@ -27,12 +34,13 @@ const MenuIcon = styled.img`
   max-height: 20%;
   padding: 5px;
 `;
+
 const HomeMenu = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [allGenres, setAllGenres] = useState<string[]>([]);
-  const navigate = useNavigate();
   const { genre: selectedGenre } = useParams();
-  let location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { currentUser } =
     useContext<CurrentUserContextType>(CurrentUserContext);
@@ -47,6 +55,7 @@ const HomeMenu = () => {
 
   useEffect(() => {
     const callGetGeners = async () => {
+      setIsLoading(true);
       const allGenres = await new MoviesApi().getAllGenres();
       setAllGenres(allGenres);
       setIsLoading(false);
@@ -58,15 +67,7 @@ const HomeMenu = () => {
     <StyledMenu>
       <MenuIcon src={MovieTabIcon} />
       <Divider />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flexGrow: 1,
-          flexShrink: 1,
-          height: 0,
-        }}
-      >
+      <MenuOptions>
         <List>
           {["Home", "Upcoming", currentUser ? "Favorite" : null].map(
             (text) =>
@@ -93,23 +94,21 @@ const HomeMenu = () => {
             ))}
           </div>
         ) : (
-          <>
-            <List>
-              {allGenres.map((genre) => (
-                <ListItem
-                  key={genre}
-                  disablePadding
-                  onClick={() => handleGenreOnClick(genre)}
-                >
-                  <ListItemButton selected={genre === selectedGenre}>
-                    <ListItemText primary={genre} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </>
+          <List>
+            {allGenres.map((genre) => (
+              <ListItem
+                key={genre}
+                disablePadding
+                onClick={() => handleGenreOnClick(genre)}
+              >
+                <ListItemButton selected={genre === selectedGenre}>
+                  <ListItemText primary={genre} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
         )}
-      </div>
+      </MenuOptions>
     </StyledMenu>
   );
 };

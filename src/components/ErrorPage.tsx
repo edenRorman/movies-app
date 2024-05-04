@@ -24,7 +24,6 @@ const LinkToHomePage = styled(Button)`
 
 export default function ErrorPage() {
   const error: any = useRouteError();
-  console.error(error);
 
   const navigate = useNavigate();
   function handleClick() {

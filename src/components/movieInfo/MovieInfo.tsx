@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SyntheticEvent } from "react";
 import Movie from "../../models/MovieDataModel";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import { IoMdArrowBack } from "react-icons/io";
-import MovieInfoRigthSide from "./MovieInfoRigthSide";
+import MovieInfoDetails from "./MovieInfoDetails";
 import MoviesApi from "../../apis/MoviesApi";
 import Loader from "../Loader";
+import ImageNotAvailable from "../../images/imageNotAvailable.png";
 
-const StyledPage = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -21,18 +22,19 @@ const StyledBackButton = styled(Button)`
 const StyledMovie = styled.div`
   display: flex;
 `;
-const MovieImage = styled.img`
-  width: 100%;
-  height: 80vh;
-  display: block;
-`;
-const StyledLeftSide = styled.div`
+const MovieImageContainer = styled.div`
+  display: flex;
   flex: 4;
   overflow: hidden;
   padding-right: 20px;
   padding-left: 20px;
 `;
-
+const MovieImage = styled.img`
+  width: 100%;
+  height: 80vh;
+  display: block;
+  border: #afafaf 1px solid;
+`;
 const StyledLoader = styled(Loader)`
   display: flex;
   align-items: center;
@@ -56,10 +58,14 @@ const MovieInfo = () => {
     navigate("/home");
   }
 
+  const addDefaultImg = (ev: SyntheticEvent<HTMLImageElement, Event>) => {
+    ev.currentTarget.src = ImageNotAvailable;
+  };
+
   return (
     <div>
       {movieInfo ? (
-        <StyledPage>
+        <Container>
           <StyledBackButton
             color="inherit"
             onClick={handleClick}
@@ -68,15 +74,16 @@ const MovieInfo = () => {
             Back
           </StyledBackButton>
           <StyledMovie>
-            <StyledLeftSide>
+            <MovieImageContainer>
               <MovieImage
                 src={movieInfo.primaryImageUrl}
                 alt={movieInfo.title}
+                onError={addDefaultImg}
               ></MovieImage>
-            </StyledLeftSide>
-            <MovieInfoRigthSide movie={movieInfo} />
+            </MovieImageContainer>
+            <MovieInfoDetails movie={movieInfo} />
           </StyledMovie>
-        </StyledPage>
+        </Container>
       ) : (
         <StyledLoader size="200px"></StyledLoader>
       )}

@@ -33,10 +33,10 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
   };
 
-  const handleSave = async () => {
+  const handleOnSave = async () => {
     const createUserResponse = await new MoviesApi().cresteNewUser(userName);
     if (createUserResponse === "duplicate") {
-      setError("this user name is already exist");
+      setError("This user name is already exist");
     } else if (createUserResponse === "error") {
       setError("Somting went worng. please try again");
     } else {
@@ -53,7 +53,7 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
         <DialogTitle>Welcome to the best movies place</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please create new usey by inserting a user name
+            Please create a new user by inserting a user name
           </DialogContentText>
           <TextField
             required
@@ -70,7 +70,7 @@ const SignInModal: React.FC<LoginModalProps> = ({ isOpen, setIsOpen }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleOnClose}>Cancel</Button>
-          <Button disabled={!userName} onClick={handleSave} type="submit">
+          <Button disabled={!userName} onClick={handleOnSave} type="submit">
             Create user
           </Button>
         </DialogActions>

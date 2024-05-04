@@ -6,7 +6,7 @@ The backend code can be found on my github [here](https://github.com/edenRorman/
 
 You can visit the website on the address: [https://main.d2oyia48f1kuq2.amplifyapp.com/home](https://main.d2oyia48f1kuq2.amplifyapp.com/home)
 
-![screenshot of the website](./public/website_screenshot_20_4_2024.jpg)
+![screenshot of the website](./public/website_screenshot_02_5_2024.jpg)
 
 ## Project strcture
 

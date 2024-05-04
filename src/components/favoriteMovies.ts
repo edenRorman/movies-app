@@ -1,4 +1,4 @@
-import Movie from "./MovieDataModel";
+import Movie from "../models/MovieDataModel";
 
 type FavoriteMovies = Map<string, Movie>;
 

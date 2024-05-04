@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import NoResultIcon from "./images/noResult.jpeg";
+import NoResultIcon from "../images/noResult.jpeg";
 
 const EmptyPageText = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ searchTerm, genre }) => {
       )}
       {searchTerm && (
         <EmptyPageText>
-          <img src={NoResultIcon}></img>
+          <img src={NoResultIcon} alt="no result"></img>
           <h1>Sorry...</h1>
           There are no movies for the given search "{searchTerm}",
           <br />

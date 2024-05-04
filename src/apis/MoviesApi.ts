@@ -1,5 +1,5 @@
-import Movie from "./MovieDataModel";
-import FavoriteMovies from "./favoriteMovies";
+import Movie from "../models/MovieDataModel";
+import FavoriteMovies from "../components/favoriteMovies";
 
 class MoviesApi {
   baseUrl: string = "https://moviesdatabase.p.rapidapi.com";

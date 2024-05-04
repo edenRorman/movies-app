@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { MdImageNotSupported } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Movie from "./MovieDataModel";
+import Movie from "../models/MovieDataModel";
 
 const MovieImg = styled.img`
   aspect-ratio: 1/1;

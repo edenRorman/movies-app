@@ -2,15 +2,15 @@ import { FormEvent, useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Button, Pagination, TextField } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
-import Movie from "./MovieDataModel";
+import Movie from "../models/MovieDataModel";
 import MovieCard from "./MovieCard";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import MoviesApi from "./MoviesApi";
+import MoviesApi from "../apis/MoviesApi";
 import EmptyState from "./EmptyState";
 import {
   CurrentUserContext,
   CurrentUserContextType,
-} from "./currentUserContext";
+} from "../contexts/currentUserContext";
 import Loader from "./Loader";
 
 const StyledMovieCatalog = styled.div`

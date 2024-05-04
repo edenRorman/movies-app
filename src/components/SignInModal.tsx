@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useContext, useState } from "react";
-import MoviesApi from "./MoviesApi";
+import MoviesApi from "../apis/MoviesApi";
 
 import {
   CurrentUserContext,
   CurrentUserContextType,
-} from "./currentUserContext";
+} from "../contexts/currentUserContext";
 
 interface LoginModalProps {
   isOpen: boolean;

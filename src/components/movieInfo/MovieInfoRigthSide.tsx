@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import React, { useContext, useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
-import Movie from "../MovieDataModel";
+import Movie from "../../models/MovieDataModel";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { Button, Tooltip } from "@mui/material";
-import MoviesApi from "../MoviesApi";
+import MoviesApi from "../../apis/MoviesApi";
 import {
   CurrentUserContext,
   CurrentUserContextType,
-} from "../currentUserContext";
+} from "../../contexts/currentUserContext";
 
 const StyledRigthSide = styled.div`
   flex: 3;

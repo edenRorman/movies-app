@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Movie from "../MovieDataModel";
+import Movie from "../../models/MovieDataModel";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import { IoMdArrowBack } from "react-icons/io";
 import MovieInfoRigthSide from "./MovieInfoRigthSide";
-import MoviesApi from "../MoviesApi";
+import MoviesApi from "../../apis/MoviesApi";
 import Loader from "../Loader";
 
 const StyledPage = styled.div`

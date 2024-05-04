@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import HomeMenu from "./HomeMenu";
+import HomeMenu from "./components/HomeMenu";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { useState } from "react";
-import SignInModal from "./SignInModal";
-import LogOutModal from "./LogOutModal";
-import { CurrentUserContext } from "./currentUserContext";
+import SignInModal from "./components/SignInModal";
+import LogOutModal from "./components/LogOutModal";
+import { CurrentUserContext } from "./contexts/currentUserContext";
 import { Button } from "@mui/material";
 import { FaGithub } from "react-icons/fa";
 

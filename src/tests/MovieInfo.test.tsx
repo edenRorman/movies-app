@@ -1,6 +1,6 @@
 import { act, render } from "@testing-library/react";
-import MovieInfo from "../movieInfo/MovieInfo";
-import MoviesApi from "../MoviesApi";
+import MovieInfo from "../components/movieInfo/MovieInfo";
+import MoviesApi from "../apis/MoviesApi";
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({

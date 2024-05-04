@@ -5,13 +5,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import MoviesApi from "./MoviesApi";
+import MoviesApi from "../apis/MoviesApi";
 import { useContext, useEffect, useState } from "react";
-import MovieTabIcon from "./images/movieTabIcon.png";
+import MovieTabIcon from "../images/movieTabIcon.png";
 import {
   CurrentUserContext,
   CurrentUserContextType,
-} from "./currentUserContext";
+} from "../contexts/currentUserContext";
 import { Skeleton } from "@mui/material";
 
 const StyledMenu = styled.div`

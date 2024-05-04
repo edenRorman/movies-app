@@ -10,7 +10,7 @@ import { useContext } from "react";
 import {
   CurrentUserContext,
   CurrentUserContextType,
-} from "./currentUserContext";
+} from "../contexts/currentUserContext";
 
 interface LoginModalProps {
   isOpen: boolean;
